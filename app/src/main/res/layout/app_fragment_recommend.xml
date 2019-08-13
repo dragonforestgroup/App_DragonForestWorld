@@ -4,40 +4,67 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorGrayForBackground"
-        android:scrollbars="vertical">
+        android:orientation="vertical">
 
+
+        <!--轮播图-->
+        <com.stx.xhb.xbanner.XBanner xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/xbanner"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            app:AutoPlayTime="3000"
+            app:isShowIndicatorOnlyOne="true"
+            app:isShowNumberIndicator="true"
+            app:pageChangeDuration="800"
+            app:pointNormal="@drawable/shape_point_normal"
+            app:pointSelect="@drawable/shape_point_select"
+            app:pointsContainerBackground="#44aaaaaa"
+            app:pointsPosition="RIGHT"
+            app:tipTextSize="12sp" />
+        <!--轮播图-end-->
+
+        <!--推荐标题-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorGrayForBackground"
-            android:orientation="vertical">
+            android:layout_height="30dp"
+            android:background="@color/colorBlueForLoginTitle"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp">
 
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/app_icon_hot" />
 
-            <!--轮播图-->
-            <com.stx.xhb.xbanner.XBanner xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/xbanner"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
-                app:AutoPlayTime="3000"
-                app:isShowIndicatorOnlyOne="true"
-                app:isShowNumberIndicator="true"
-                app:pageChangeDuration="800"
-                app:pointNormal="@drawable/shape_point_normal"
-                app:pointSelect="@drawable/shape_point_select"
-                app:pointsContainerBackground="#44aaaaaa"
-                app:pointsPosition="RIGHT"
-                app:tipTextSize="12sp" />
-            <!--轮播图-end-->
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
+                android:text="今日推荐"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <!--推荐标题end-->
+
+        <!--推荐列表-->
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/swipeRefreshLayout">
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleView_recommend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorGrayForBackground"
-                android:id="@+id/recycleView_recommend"></android.support.v7.widget.RecyclerView>
-        </LinearLayout>
-    </ScrollView>
+                android:background="@color/colorGrayForBackground"></android.support.v7.widget.RecyclerView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+        <!--推荐列表end-->
+
+    </LinearLayout>
 </LinearLayout>

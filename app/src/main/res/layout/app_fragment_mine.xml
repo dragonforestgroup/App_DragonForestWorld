@@ -73,7 +73,7 @@
             android:orientation="vertical">
             <!--我发布的-->
             <LinearLayout
-                android:layout_marginTop="2px"
+                android:layout_marginTop="30px"
                 android:background="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"

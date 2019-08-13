@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.dragonforest.app.dragonforestworld.R;
 import com.dragonforest.app.dragonforestworld.adapter.ArticleRecycleAdapter;
 import com.dragonforest.app.dragonforestworld.beans.Article;
 import com.dragonforest.app.module_common.utils.LogUtil;
+import com.dragonforest.app.module_common.utils.ToastUtils;
 import com.stx.xhb.xbanner.XBanner;
 import com.stx.xhb.xbanner.entity.LocalImageInfo;
 
@@ -32,6 +34,7 @@ public class FragmentRecommend extends Fragment {
 
     private XBanner xBanner;
     private RecyclerView recyclerView_recommend;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
     @Override
@@ -54,6 +57,19 @@ public class FragmentRecommend extends Fragment {
         initXbanner(xBanner);
         recyclerView_recommend = v.findViewById(R.id.recycleView_recommend);
         initRecycleView(recyclerView_recommend);
+        swipeRefreshLayout=v.findViewById(R.id.swipeRefreshLayout);
+        initSwipeRefreshLayout(swipeRefreshLayout);
+
+    }
+
+    private void initSwipeRefreshLayout(SwipeRefreshLayout swipe) {
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                ToastUtils.showCenter("已更新10条",getActivity());
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     private void initXbanner(XBanner xBanner) {

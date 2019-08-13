@@ -4,8 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:background="@android:color/white"
-    app:cardCornerRadius="5dp">
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="5dp"
+    app:cardPreventCornerOverlap="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +36,9 @@
                 android:layout_toRightOf="@+id/img_publisher"
                 android:gravity="center_vertical"
                 android:text="发布者"
-                android:textSize="12sp" />
+                android:textColor="@color/colorBlueForLoginTitle"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_pushlish_time"
@@ -45,6 +50,13 @@
                 android:text="5小时前"
                 android:textSize="12sp" />
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/colorGrayForBackground" />
 
         <LinearLayout
             android:layout_width="match_parent"
