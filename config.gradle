@@ -1,0 +1,48 @@
+ext {
+    //默认属性
+    android = [
+            compileSdkVersion: 28,
+            minSdkVersion    : 17,
+            targetSdkVersion : 28,
+            versionCode: 1,
+            versionName: 'v1.1'
+    ]
+
+    defaultConfig = [
+            versionCode: 1,
+            versionName: '1.1',
+    ]
+
+    dependencies = [
+            appcompatV7: 'com.android.support:appcompat-v7:28.0.0',
+            design     : 'com.android.support:design:28.0.0'
+    ]
+
+    signingConfigs = [
+            keyAlias     : 'han',
+            keyPassword  : 'longlin12345809573',
+            storeFile    : '/DragonForest.jks',
+            storePassword: 'longlin12345809573'
+    ]
+
+    outApkInfo = [
+            appName:'DragonforestWorld'
+    ]
+
+    //BuildConfig属性
+    //公共
+    commonInfo = [
+            appId         : '"MAPPE2E0030"',
+            cacheDir      : '"/mnt/sdcard/crash/注册绑定/"',
+            apkDownloadDir: '"/mnt/sdcard/DYYP/ISERVERAS/PREINST/"'
+    ]
+
+    // 组件化设置
+    moduleSetting =[
+            isLoginRunAlone: false   // 登录模块是否独立运行
+    ]
+    //个性化
+    personalInfo = [
+
+    ]
+}
