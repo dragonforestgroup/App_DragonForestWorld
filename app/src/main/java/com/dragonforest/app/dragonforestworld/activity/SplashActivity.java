@@ -30,14 +30,17 @@ public class SplashActivity extends AppCompatActivity {
         initView();
         long appLastOpenTime = LoginUtil.getAppLastOpenTime(this);
         long currentOpenTime = System.currentTimeMillis();
+        LoginUtil.recordAppOpenTime(this);
         if (appLastOpenTime != 0
-//                && ((appLastOpenTime - System.currentTimeMillis()) < (1000 * 60 * 60 * 6))) {
-                && ((currentOpenTime - appLastOpenTime) < (1000))) {
-            // 当距离上一次打开app相隔6个小时以内时，不显示splash
-            LoginUtil.recordAppOpenTime(this);
-            forwardActivity();
+                && ((currentOpenTime - appLastOpenTime) < (1000 * 60))) {
+            // 1分钟以内 闪现
+            handler.sendEmptyMessage(1);
+        } else if (appLastOpenTime != 0
+                && ((currentOpenTime - appLastOpenTime) < (1000 * 60 * 60))) {
+            // 1小时以内 等待1s
+            handler.sendEmptyMessageDelayed(1, 1000);
         } else {
-            LoginUtil.recordAppOpenTime(this);
+            // 1小时以上 等待5s
             handler.sendEmptyMessage(0);
         }
     }
@@ -76,10 +79,13 @@ public class SplashActivity extends AppCompatActivity {
                     if (lastSeconds > 0) {
                         lastSeconds--;
                         handler.sendEmptyMessageDelayed(0, 1000);
-                        tv_seconds.setText("跳过" + lastSeconds + "s");
+                        tv_seconds.setText("跳 过 " + lastSeconds + " s");
                     } else {
                         forwardActivity();
                     }
+                    break;
+                case 1:
+                    forwardActivity();
                     break;
             }
         }
@@ -88,11 +94,11 @@ public class SplashActivity extends AppCompatActivity {
     /**
      * 页面跳转规则
      * 1.是否首次打开app
-     *      是：进入引导页
-     *      否：进入2
+     * 是：进入引导页
+     * 否：进入2
      * 2.是否已经登录：
-     *      是：进入MainActivity
-     *      否：进入登录
+     * 是：进入MainActivity
+     * 否：进入登录
      */
     private void forwardActivity() {
         if (LoginUtil.isFirstOpenApp(this)) {
@@ -104,6 +110,8 @@ public class SplashActivity extends AppCompatActivity {
             if (LoginUtil.getCacheUserInfo(this) != null) {
                 // 已经登录过，进入Main
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                // 测试navigation
+//                startActivity(new Intent(SplashActivity.this, NavigationActivity2.class));
                 finish();
             } else {
                 // 没有登录过, 进入登录

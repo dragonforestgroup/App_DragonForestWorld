@@ -5,13 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.DragEvent;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import com.dragonforest.app.dragonforestworld.R;
-import com.dragonforest.app.dragonforestworld.adapter.MyFragmentPagerAdapter;
+import com.dragonforest.app.dragonforestworld.adapter.MainFragmentPagerAdapter;
 import com.dragonforest.app.module_common.utils.LogUtil;
 
 /**
@@ -45,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        MyFragmentPagerAdapter fragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+        MainFragmentPagerAdapter fragmentPagerAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(fragmentPagerAdapter);
     }
 

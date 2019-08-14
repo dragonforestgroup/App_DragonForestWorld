@@ -21,7 +21,7 @@ ext {
     signingConfigs = [
             keyAlias     : 'han',
             keyPassword  : 'longlin12345809573',
-            storeFile    : '/DragonForest.jks',
+            storeFile    : '../DragonForest.jks',
             storePassword: 'longlin12345809573'
     ]
 

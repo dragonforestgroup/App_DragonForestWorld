@@ -73,10 +73,13 @@
             android:orientation="vertical">
             <!--我发布的-->
             <LinearLayout
+                android:id="@+id/ll_my_publish"
                 android:layout_marginTop="30px"
-                android:background="@android:color/white"
+                android:clickable="true"
+                android:onClick="onMineClick"
+                android:background="@drawable/app_selector_item"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="40dp"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="20dp"
@@ -96,10 +99,12 @@
 
             <!--我的贡献-->
             <LinearLayout
+                android:id="@+id/ll_my_offer"
                 android:layout_marginTop="2px"
-                android:background="@android:color/white"
+                android:clickable="true"
+                android:background="@drawable/app_selector_item"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="40dp"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="20dp"
@@ -119,10 +124,12 @@
 
             <!--start数量-->
             <LinearLayout
+                android:id="@+id/ll_my_stars"
                 android:layout_marginTop="2px"
-                android:background="@android:color/white"
+                android:clickable="true"
+                android:background="@drawable/app_selector_item"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="40dp"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="20dp"
@@ -142,10 +149,12 @@
 
             <!--收藏-->
             <LinearLayout
+                android:id="@+id/ll_my_collect"
                 android:layout_marginTop="30px"
-                android:background="@android:color/white"
+                android:clickable="true"
+                android:background="@drawable/app_selector_item"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="40dp"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="20dp"
@@ -163,12 +172,39 @@
             </LinearLayout>
             <!--收藏end-->
 
+            <!--分享-->
+            <LinearLayout
+                android:id="@+id/ll_my_share"
+                android:layout_marginTop="2px"
+                android:clickable="true"
+                android:background="@drawable/app_selector_item"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/app_icon_my_share"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="分享"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="12sp"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+            <!--分享end-->
+
             <!--联系我们-->
             <LinearLayout
+                android:id="@+id/ll_contact_us"
                 android:layout_marginTop="2px"
-                android:background="@android:color/white"
+                android:clickable="true"
+                android:background="@drawable/app_selector_item"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="40dp"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="20dp"
