@@ -60,6 +60,8 @@ public class ArticleRecycleAdapter extends RecyclerView.Adapter {
         ImageView img_publisher;
         TextView tv_publisher;
         TextView tv_publish_time;
+        TextView tv_collect_num;
+        TextView tv_star_num;
         TextView tv_title;
         ImageView img_title;
 
@@ -71,12 +73,14 @@ public class ArticleRecycleAdapter extends RecyclerView.Adapter {
             tv_publisher = itemView.findViewById(R.id.tv_publisher);
             tv_publish_time = itemView.findViewById(R.id.tv_pushlish_time);
             tv_title = itemView.findViewById(R.id.tv_title);
+            tv_collect_num = itemView.findViewById(R.id.tv_collect_num);
+            tv_star_num = itemView.findViewById(R.id.tv_star_num);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(onItemListener!=null){
-                        onItemListener.onItemClick(dataList.get(getAdapterPosition()),getAdapterPosition());
+                    if (onItemListener != null) {
+                        onItemListener.onItemClick(dataList.get(getAdapterPosition()), getAdapterPosition());
                     }
                 }
             });
@@ -84,6 +88,7 @@ public class ArticleRecycleAdapter extends RecyclerView.Adapter {
 
         public void bindView(int position) {
             Article article = dataList.get(position);
+            if (article == null) return;
             tv_title.setText(article.getTitle() + "");
             tv_publisher.setText(article.getPublisher() + "");
             tv_publish_time.setText(article.getTime() + "");
@@ -93,10 +98,12 @@ public class ArticleRecycleAdapter extends RecyclerView.Adapter {
             } else if (article.getImgId() != 0) {
                 img_title.setImageResource(article.getImgId());
             }
+            tv_collect_num.setText(article.getCollect_num()+"");
+            tv_star_num.setText(article.getStar_num()+"");
         }
     }
 
-    public interface OnItemListener{
-        void onItemClick(Article article,int position);
+    public interface OnItemListener {
+        void onItemClick(Article article, int position);
     }
 }

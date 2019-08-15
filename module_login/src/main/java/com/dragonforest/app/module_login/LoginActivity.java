@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void finish() {
         super.finish();
         // 设置退出动画
-        overridePendingTransition(0,R.anim.stay_anim);
+        overridePendingTransition(0,R.anim.login_out_anim);
     }
 
 

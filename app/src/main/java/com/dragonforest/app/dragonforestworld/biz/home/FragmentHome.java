@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,6 +16,8 @@ import com.dragonforest.app.dragonforestworld.R;
 import com.dragonforest.app.dragonforestworld.biz.home.adapter.HomeFragmentPagerAdapter;
 import com.dragonforest.app.dragonforestworld.biz.home.fragment.TempleteFragment;
 import com.dragonforest.app.module_common.utils.LogUtil;
+import com.dragonforest.app.module_common.utils.NavigationUtil;
+import com.dragonforest.app.module_common.utils.ToastUtils;
 import com.dragonforest.app.module_common.view.coordinatorTablayout.CoordinatorTabLayout;
 
 import java.util.ArrayList;
@@ -29,8 +34,15 @@ public class FragmentHome extends Fragment {
     private CoordinatorTabLayout coordinatorTabLayout;
     private ViewPager viewPager;
     private String[] titles = {"android", "java"};
-    private int[] colorArray=new int[]{R.color.colorBlueForLoginTitle,R.color.colorBlueForLoginTitle};
-    private int[] imgArray = new int[] {R.drawable.app_bg_android, R.drawable.app_bg_java};
+    private int[] colorArray = new int[]{R.color.colorBlueForLoginTitle, R.color.colorBlueForLoginTitle};
+    private int[] imgArray = new int[]{R.drawable.app_bg_android, R.drawable.app_bg_java};
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // 加上这句话菜单才会显示出来
+        setHasOptionsMenu(true);
+    }
 
     @Nullable
     @Override
@@ -57,7 +69,7 @@ public class FragmentHome extends Fragment {
 
     private void initCoordinatorTablayout(CoordinatorTabLayout cdt) {
         cdt.setTitle("Get what you want")
-                .setImageArray(imgArray,colorArray)
+                .setImageArray(imgArray, colorArray)
                 .setBackEnable(true)
                 .setupWithViewPager(viewPager);
     }
@@ -78,5 +90,25 @@ public class FragmentHome extends Fragment {
 
     private void initData() {
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        getActivity().getMenuInflater().inflate(R.menu.home_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                ToastUtils.show("你好这个不能点", getActivity());
+                break;
+            case R.id.action_add:
+                ToastUtils.show("开始进入发布页面",getActivity());
+                NavigationUtil.navigation(getActivity(),false,"com.dragonforest.app.module_publish.EditActivity");
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

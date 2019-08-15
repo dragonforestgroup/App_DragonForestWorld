@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.dragonforest.app.module_publish">
+
+    <application>
+        <activity
+            android:name=".EditActivity"
+            android:theme="@style/EditStyle"></activity>
+    </application>
+
+</manifest>

@@ -39,7 +39,48 @@
                 android:textColor="@color/colorBlueForLoginTitle"
                 android:textSize="12sp"
                 android:textStyle="bold" />
-
+            <TextView
+                android:id="@+id/tv_collect_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/tv_collect_num"
+                android:layout_marginRight="5dp"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="已收藏"
+                android:textSize="10sp"
+                android:textColor="@android:color/darker_gray"/>
+            <TextView
+                android:id="@+id/tv_collect_num"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/tv_star_title"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="0"
+                android:textSize="10sp" />
+            <TextView
+                android:id="@+id/tv_star_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/tv_star_num"
+                android:layout_marginRight="5dp"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="星标"
+                android:textSize="10sp"
+                android:textColor="@android:color/darker_gray"/>
+            <TextView
+                android:id="@+id/tv_star_num"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/tv_pushlish_time"
+                android:layout_marginRight="20dp"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="0"
+                android:textSize="10sp" />
             <TextView
                 android:id="@+id/tv_pushlish_time"
                 android:layout_width="wrap_content"

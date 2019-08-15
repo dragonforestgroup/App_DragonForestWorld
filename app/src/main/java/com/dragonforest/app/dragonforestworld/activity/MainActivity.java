@@ -1,15 +1,20 @@
 package com.dragonforest.app.dragonforestworld.activity;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.dragonforest.app.dragonforestworld.R;
 import com.dragonforest.app.dragonforestworld.adapter.MainFragmentPagerAdapter;
 import com.dragonforest.app.module_common.utils.LogUtil;
+import com.dragonforest.app.module_common.utils.ToastUtils;
 
 /**
  * 主activity
@@ -98,4 +103,18 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    // 处理返回键
+    long lastClickBackTime = 0;
+
+    @Override
+    public void onBackPressed() {
+        long currentClickBackTime = System.currentTimeMillis();
+        if ((currentClickBackTime - lastClickBackTime) > 2000) {
+            lastClickBackTime = currentClickBackTime;
+            ToastUtils.show("再按一次退出", this);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_edit_save"
+        android:title="保存" />
+    <item
+        android:id="@+id/action_edit_delete"
+        android:title="舍弃" />
+    <item
+        android:id="@+id/action_edit_publish"
+        android:title="发布" />
+</menu>

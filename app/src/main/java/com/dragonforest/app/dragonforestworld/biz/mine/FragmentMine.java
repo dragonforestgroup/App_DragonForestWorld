@@ -2,7 +2,6 @@ package com.dragonforest.app.dragonforestworld.biz.mine;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,13 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dragonforest.app.dragonforestworld.R;
 import com.dragonforest.app.module_common.beans.UserInfo;
 import com.dragonforest.app.module_common.utils.LogUtil;
 import com.dragonforest.app.module_common.utils.LoginUtil;
+import com.dragonforest.app.module_common.utils.NavigationUtil;
 import com.dragonforest.app.module_common.utils.ToastUtils;
+
 
 /**
  * 我的界面
@@ -97,22 +97,11 @@ public class FragmentMine extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 LoginUtil.saveUserInfo(getActivity(), null);
-                gotoLogin();
+                NavigationUtil.navigation(getActivity(), true, "com.dragonforest.app.module_login.LoginActivity");
+
             }
         });
         builder.show();
-    }
-
-    private void gotoLogin() {
-        try {
-            Class<?> aClass = Class.forName("com.dragonforest.app.module_login.LoginActivity");
-            Intent intent = new Intent();
-            intent.setClass(getActivity(), aClass);
-            getActivity().finish();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getActivity(), "登录模块缺失", Toast.LENGTH_SHORT).show();
-        }
     }
 
     /**
@@ -141,13 +130,28 @@ public class FragmentMine extends Fragment implements View.OnClickListener {
                 defaultProcess();
                 break;
             case R.id.ll_my_share:
-                defaultProcess();
+                shareApp();
                 break;
             case R.id.ll_contact_us:
                 defaultProcess();
                 break;
             default:
                 break;
+        }
+    }
+
+    private void shareApp() {
+        try {
+            com.dragonforest.app.module_share.util.ShareUtil.getInstance()
+                    .with(getActivity())
+                    .shareType(com.dragonforest.app.module_share.util.ShareUtil.SHARE_WEBPAGE)
+                    .title("DragonForest")
+                    .text("代码世界")
+                    .url("https://blog.csdn.net/qq_23992393")
+                    .shareTo(com.dragonforest.app.module_share.util.ShareUtil.SHARE_PLATFORM_QQ);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastUtils.show("分享模块缺失！" + e.getMessage(), getActivity());
         }
     }
 }

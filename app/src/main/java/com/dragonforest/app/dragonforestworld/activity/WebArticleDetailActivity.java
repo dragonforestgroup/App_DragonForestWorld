@@ -21,9 +21,9 @@ import com.dragonforest.app.module_common.utils.ToastUtils;
 import java.io.Serializable;
 
 public class WebArticleDetailActivity extends AppCompatActivity {
-    WebView webView;
-    Toolbar toolbar;
-    ProgressBar progressBar_loading;
+    private WebView webView;
+    private Toolbar toolbar;
+    private ProgressBar progressBar_loading;
 
     /**
      * 需要传入的数据

@@ -10,10 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dragonforest.app.dragonforestworld.R;
+import com.dragonforest.app.dragonforestworld.welcome.WelcomeActivity;
 import com.dragonforest.app.module_common.utils.LoginUtil;
+import com.dragonforest.app.module_common.utils.NavigationUtil;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -104,27 +105,16 @@ public class SplashActivity extends AppCompatActivity {
         if (LoginUtil.isFirstOpenApp(this)) {
             // 首次打开app， 打开引导页面
             LoginUtil.recordAppOpened(this);
-            startActivity(new Intent(SplashActivity.this, NavigationActivity.class));
+            startActivity(new Intent(SplashActivity.this, WelcomeActivity.class));
             finish();
         } else {
             if (LoginUtil.getCacheUserInfo(this) != null) {
                 // 已经登录过，进入Main
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                // 测试navigation
-//                startActivity(new Intent(SplashActivity.this, NavigationActivity2.class));
                 finish();
             } else {
                 // 没有登录过, 进入登录
-                try {
-                    Class<?> aClass = Class.forName("com.dragonforest.app.module_login.LoginActivity");
-                    Intent intent = new Intent();
-                    intent.setClass(SplashActivity.this, aClass);
-                    startActivity(intent);
-                    finish();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(this, "登录模块缺失", Toast.LENGTH_SHORT).show();
-                }
+                NavigationUtil.navigation(this,true,"com.dragonforest.app.module_login.LoginActivity");
             }
         }
     }
