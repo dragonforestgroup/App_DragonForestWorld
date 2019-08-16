@@ -2,6 +2,7 @@ package com.dragonforest.app.dragonforestworld.biz.mine;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dragonforest.app.dragonforestworld.R;
+import com.dragonforest.app.dragonforestworld.biz.mine.activity.ContactUsActivity;
 import com.dragonforest.app.module_common.beans.UserInfo;
 import com.dragonforest.app.module_common.utils.LogUtil;
 import com.dragonforest.app.module_common.utils.LoginUtil;
@@ -133,7 +135,7 @@ public class FragmentMine extends Fragment implements View.OnClickListener {
                 shareApp();
                 break;
             case R.id.ll_contact_us:
-                defaultProcess();
+                gotoContactUs();
                 break;
             default:
                 break;
@@ -148,10 +150,14 @@ public class FragmentMine extends Fragment implements View.OnClickListener {
                     .title("DragonForest")
                     .text("代码世界")
                     .url("https://blog.csdn.net/qq_23992393")
-                    .shareTo(com.dragonforest.app.module_share.util.ShareUtil.SHARE_PLATFORM_QQ);
+                    .share();
         } catch (Exception e) {
             e.printStackTrace();
             ToastUtils.show("分享模块缺失！" + e.getMessage(), getActivity());
         }
+    }
+
+    private void gotoContactUs() {
+        startActivity(new Intent(getActivity(), ContactUsActivity.class));
     }
 }

@@ -1,6 +1,7 @@
 package com.dragonforest.app.module_share.application;
 
 import android.app.Application;
+import android.content.Context;
 
 import cn.jiguang.share.android.api.JShareInterface;
 import cn.jiguang.share.android.api.PlatformConfig;
@@ -23,10 +24,10 @@ public class ShareApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        initJShare();
+        initJShare(this);
     }
 
-    public void initJShare() {
+    public void initJShare(Context context) {
         JShareInterface.setDebugMode(true);
         PlatformConfig platformConfig = new PlatformConfig()
                 .setWechat("wxc40e16f3ba6ebabc", "dcad950cd0633a27e353477c4ec12e7a")
@@ -39,6 +40,6 @@ public class ShareApplication extends Application {
          * since 1.5.0，1.5.0版本后增加API，支持在代码中设置第三方appKey等信息，当PlatformConfig为null时，或者使用JShareInterface.init(Context)时需要配置assets目录下的JGShareSDK.xml
          **/
         //*
-        JShareInterface.init(this, platformConfig);
+        JShareInterface.init(context, platformConfig);
     }
 }

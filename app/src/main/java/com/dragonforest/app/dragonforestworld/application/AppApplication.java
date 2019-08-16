@@ -15,7 +15,7 @@ public class AppApplication extends CommonApplication {
 
     private void initShare() {
         try {
-            com.dragonforest.app.module_share.application.ShareApplication.getInstance().initJShare();
+            com.dragonforest.app.module_share.application.ShareApplication.getInstance().initJShare(this);
         } catch (Exception e) {
             e.printStackTrace();
         }

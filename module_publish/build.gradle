@@ -49,4 +49,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(':module_common')
+
+    //===================三方库==============================
+    implementation 'jp.wasabeef:richeditor-android:1.2.2'
+    //===================三方库end==============================
+
 }

@@ -8,11 +8,13 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.dragonforest.app.dragonforestworld.R;
 import com.dragonforest.app.dragonforestworld.adapter.MainFragmentPagerAdapter;
+import com.dragonforest.app.dragonforestworld.test.MyFactory;
 import com.dragonforest.app.module_common.utils.LogUtil;
 import com.dragonforest.app.module_common.utils.ToastUtils;
 
@@ -25,17 +27,25 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private BottomNavigationView navigation;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        testReplaceText();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        LogUtil.D(getClass().getName(),"onCreate()");
         initView();
+    }
+
+    private void testReplaceText() {
+        MyFactory myFactory=new MyFactory();
+        myFactory.setmDelegate(getDelegate());
+        LayoutInflater.from(this).setFactory2(myFactory);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        LogUtil.D(getClass().getName(),"onResume()");
         initData();
     }
 
@@ -43,12 +53,17 @@ public class MainActivity extends AppCompatActivity {
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         viewPager = findViewById(R.id.viewPager);
-        viewPager.setOnPageChangeListener(mOnPageChangeListener);
+        initViewPager(viewPager);
+    }
+
+    private void initViewPager(ViewPager vp){
+        vp.setOnPageChangeListener(mOnPageChangeListener);
+        MainFragmentPagerAdapter fragmentPagerAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager());
+        vp.setAdapter(fragmentPagerAdapter);
     }
 
     private void initData() {
-        MainFragmentPagerAdapter fragmentPagerAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(fragmentPagerAdapter);
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
