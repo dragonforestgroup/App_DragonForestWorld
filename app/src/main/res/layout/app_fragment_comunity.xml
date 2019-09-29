@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorGrayForBackground"
+    android:orientation="vertical">
+
+    <!--搜索专栏-->
+    <!--<com.dragonforest.app.dragonforestworld.view.CompatLayout.CompatStatusBarLinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/colorAccent"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:paddingLeft="20dp"-->
+        <!--android:paddingTop="10dp"-->
+        <!--android:paddingRight="20dp"-->
+        <!--android:paddingBottom="10dp">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="java爱好者社区"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="15sp" />-->
+
+        <!--<EditText-->
+            <!--android:layout_width="200dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:alpha="0.5"-->
+            <!--android:background="@drawable/app_bg_search"-->
+            <!--android:drawableRight="@drawable/app_icon_search"-->
+            <!--android:drawablePadding="5dp"-->
+            <!--android:hint="请输入搜索内容"-->
+            <!--android:maxLines="1"-->
+            <!--android:padding="5dp"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="12sp" />-->
+
+    <!--</com.dragonforest.app.dragonforestworld.view.CompatLayout.CompatStatusBarLinearLayout>-->
+
+    <com.dragonforest.app.dragonforestworld.view.CompatLayout.CompatStatusBarToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBlueForRegisterTitle"
+        app:title="开发者社区"
+        app:titleTextAppearance="@style/ToolbarTitleText"
+        app:collapseIcon="@drawable/app_bg_search"></com.dragonforest.app.dragonforestworld.view.CompatLayout.CompatStatusBarToolbar>
+    <!--搜索专栏-end-->
+
+    <!--推荐标题-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:background="@color/colorBlueForLoginTitle"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:paddingLeft="10dp">-->
+
+    <!--<ImageView-->
+    <!--android:layout_width="20dp"-->
+    <!--android:layout_height="20dp"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:src="@drawable/app_icon_hot" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginLeft="5dp"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:text="今日推荐"-->
+    <!--android:textColor="@android:color/white"-->
+    <!--android:textSize="12sp" />-->
+    <!--</LinearLayout>-->
+    <!--推荐标题end-->
+
+    <!--推荐列表-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycleView_recommend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorGrayForBackground"></android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <!--推荐列表end-->
+
+</LinearLayout>
