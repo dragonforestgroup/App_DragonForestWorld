@@ -37,8 +37,11 @@ import android.widget.Toast;
 
 import com.dragonforest.app.module_common.beans.UserInfo;
 import com.dragonforest.app.module_common.utils.LoginUtil;
+import com.dragonforest.app.module_common.utils.NotificationUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -70,6 +73,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private String email;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,8 +198,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        email = mEmailView.getText().toString();
+        password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -393,7 +398,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private void forwardTarget() {
         Intent intent = new Intent();
-        // 默认进入MainAcivity
+        // 默认进入MainActivity
         try {
             Class clazz = Class.forName("com.dragonforest.app.dragonforestworld.activity.MainActivity");
             intent.setClass(LoginActivity.this, clazz);

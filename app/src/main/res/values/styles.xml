@@ -10,13 +10,13 @@
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/app_splash</item>
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
     </style>
 
     <style name="MainStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">@color/colorBlueForLoginTitle</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -38,6 +38,11 @@
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="ToolbarTitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

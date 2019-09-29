@@ -33,9 +33,11 @@ public class FragmentHome extends Fragment {
 
     private CoordinatorTabLayout coordinatorTabLayout;
     private ViewPager viewPager;
-    private String[] titles = {"android", "java"};
-    private int[] colorArray = new int[]{R.color.colorBlueForLoginTitle, R.color.colorBlueForLoginTitle};
-    private int[] imgArray = new int[]{R.drawable.app_bg_android, R.drawable.app_bg_java};
+
+    // 三个必须一一对应 数组长度相同
+    private String[] titles = {"android", "java","python","c++"};
+    private int[] colorArray = new int[]{R.color.colorBlueForLoginTitle, R.color.colorBlueForLoginTitle, R.color.colorBlueForLoginTitle, R.color.colorBlueForLoginTitle};
+    private int[] imgArray = new int[]{R.drawable.app_bg_android, R.drawable.app_bg_java,R.drawable.app_welcome_bg1,R.drawable.app_welcome_bg2};
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,7 +107,6 @@ public class FragmentHome extends Fragment {
                 ToastUtils.show("你好这个不能点", getActivity());
                 break;
             case R.id.action_add:
-                ToastUtils.show("开始进入发布页面",getActivity());
                 NavigationUtil.navigation(getActivity(),false,"com.dragonforest.app.module_publish.EditActivity");
                 break;
         }

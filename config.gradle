@@ -15,7 +15,8 @@ ext {
 
     dependencies = [
             appcompatV7: 'com.android.support:appcompat-v7:28.0.0',
-            design     : 'com.android.support:design:28.0.0'
+            design     : 'com.android.support:design:28.0.0',
+            constraint : 'com.android.support.constraint:constraint-layout:1.1.3'
     ]
 
     signingConfigs = [
@@ -41,7 +42,8 @@ ext {
     moduleSetting = [
             isLoginRunAlone   : false,   // 登录模块是否独立运行
             isPushlishRunAlone: false,  // 发布模块是否独立运行
-            isShareRunAlone   : false  // 分享模块是否独立运行
+            isShareRunAlone   : false,  // 分享模块是否独立运行
+            isPlanRunAlone   : false  // 计划模块是否独立运行
     ]
     //个性化
     personalInfo = [

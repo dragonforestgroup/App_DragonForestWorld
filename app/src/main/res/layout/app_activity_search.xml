@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorGrayForBackground"
+    android:orientation="vertical">
+
+    <!--搜索专栏-->
+
+    <com.dragonforest.app.dragonforestworld.view.CompatLayout.CompatStatusBarToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBlueForRegisterTitle"
+        app:titleTextAppearance="@style/ToolbarTitleText"
+        app:collapseIcon="@drawable/app_bg_search"></com.dragonforest.app.dragonforestworld.view.CompatLayout.CompatStatusBarToolbar>
+
+</LinearLayout>

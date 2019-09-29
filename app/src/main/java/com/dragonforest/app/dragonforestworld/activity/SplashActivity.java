@@ -15,6 +15,7 @@ import com.dragonforest.app.dragonforestworld.R;
 import com.dragonforest.app.dragonforestworld.welcome.WelcomeActivity;
 import com.dragonforest.app.module_common.utils.LoginUtil;
 import com.dragonforest.app.module_common.utils.NavigationUtil;
+import com.dragonforest.app.module_common.utils.StatusBarUtil;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -26,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.app_activity_splash);
         initStatusBar();
         initView();
         long appLastOpenTime = LoginUtil.getAppLastOpenTime(this);
@@ -44,20 +45,22 @@ public class SplashActivity extends AppCompatActivity {
             // 1小时以上 等待5s
             handler.sendEmptyMessage(0);
         }
+
+        StatusBarUtil.getInstance().setTransparent(this);
     }
 
 
     private void initStatusBar() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            View decorView = getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(option);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)
-            actionBar.hide();
+//        if (Build.VERSION.SDK_INT >= 21) {
+//            View decorView = getWindow().getDecorView();
+//            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+//            decorView.setSystemUiVisibility(option);
+//            getWindow().setStatusBarColor(Color.TRANSPARENT);
+//        }
+//        ActionBar actionBar = getSupportActionBar();
+//        if (actionBar != null)
+//            actionBar.hide();
     }
 
     private void initView() {

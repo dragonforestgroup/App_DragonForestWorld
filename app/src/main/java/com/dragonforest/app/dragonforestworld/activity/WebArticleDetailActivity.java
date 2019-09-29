@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 
 import com.dragonforest.app.dragonforestworld.R;
 import com.dragonforest.app.dragonforestworld.beans.Article;
+import com.dragonforest.app.module_common.utils.StatusBarUtil;
 import com.dragonforest.app.module_common.utils.ToastUtils;
 
 import java.io.Serializable;
@@ -33,9 +34,11 @@ public class WebArticleDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_article_detail);
+        setContentView(R.layout.app_activity_article_detail);
         getData();
         initView();
+
+        StatusBarUtil.getInstance().setTransparent(this);
     }
 
     private void getData() {

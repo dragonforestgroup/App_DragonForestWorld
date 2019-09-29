@@ -29,6 +29,11 @@ public class UserInfo {
      */
     String userPassword;
 
+    /**
+     * 用户头像
+     */
+    String userHeadImg;
+
     public UserInfo(String userName, String userId, String userEmail, int userLevel, String userPassword) {
         this.userName = userName;
         this.userId = userId;
@@ -75,5 +80,13 @@ public class UserInfo {
 
     public String getUserEmail() {
         return userEmail;
+    }
+
+    public void setUserHeadImg(String userHeadImg) {
+        this.userHeadImg = userHeadImg;
+    }
+
+    public String getUserHeadImg() {
+        return userHeadImg;
     }
 }

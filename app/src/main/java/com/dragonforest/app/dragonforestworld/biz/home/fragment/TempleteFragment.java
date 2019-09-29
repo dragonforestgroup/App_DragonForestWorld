@@ -83,6 +83,8 @@ public class TempleteFragment extends Fragment {
                 initAndroid();
             }else if(category.equals("java")){
                 initJava();
+            }else if(category.equals("python")){
+                initPython();
             }else{
                 ToastUtils.show("暂无内容",getActivity());
             }
@@ -104,6 +106,18 @@ public class TempleteFragment extends Fragment {
     private void initJava() {
         List<Article> list = Article.getJavaData();
         ArticleRecycleAdapter adapter = new ArticleRecycleAdapter(list,R.layout.app_item_article3);
+        recyclerView_recommend.setAdapter(adapter);
+        adapter.setOnItemListener(new ArticleRecycleAdapter.OnItemListener() {
+            @Override
+            public void onItemClick(Article article, int position) {
+                WebArticleDetailActivity.launch(getActivity(),article);
+            }
+        });
+    }
+
+    private void initPython() {
+        List<Article> list = Article.getPythonData();
+        ArticleRecycleAdapter adapter = new ArticleRecycleAdapter(list,R.layout.app_item_article1);
         recyclerView_recommend.setAdapter(adapter);
         adapter.setOnItemListener(new ArticleRecycleAdapter.OnItemListener() {
             @Override

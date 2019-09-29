@@ -9,8 +9,6 @@
         android:layout_height="match_parent"
         android:background="@color/colorGrayForBackground"
         android:orientation="vertical">
-
-
         <!--轮播图-->
         <com.stx.xhb.xbanner.XBanner xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/xbanner"

@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.dragonforest.app.dragonforestworld.biz.community.FragmentCommunity;
 import com.dragonforest.app.dragonforestworld.biz.home.FragmentHome;
 import com.dragonforest.app.dragonforestworld.biz.mine.FragmentMine;
 import com.dragonforest.app.dragonforestworld.biz.recommend.FragmentRecommend;
@@ -23,6 +24,7 @@ public class MainFragmentPagerAdapter extends FragmentStatePagerAdapter {
         fragmentList = new ArrayList<>();
         fragmentList.add(new FragmentHome());
         fragmentList.add(new FragmentRecommend());
+        fragmentList.add(new FragmentCommunity());
         fragmentList.add(new FragmentMine());
     }
 

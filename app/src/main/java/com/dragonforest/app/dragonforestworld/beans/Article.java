@@ -164,6 +164,25 @@ public class Article implements Serializable {
     }
 
     /**
+     * 获取python测试数据
+     *
+     * @return
+     */
+    public static List<Article> getPythonData() {
+        List<Article> list = new ArrayList<>();
+        list.add(new Article("智哪儿", "如何客观评价华为的ios,鸿蒙", "1小时前", "", R.drawable.app_bg_java, "","https://mp.weixin.qq.com/s/QzhfIiFLIC7GPwc6Ey5oPw"));
+        list.add(new Article("玉刚说", "做了那么久Android,有什么想对大家说的", "1小时前", "", R.drawable.app_bg_java, "","https://mp.weixin.qq.com/s/XyN2v8HdVcMmLEGkmD6PIg"));
+        list.add(new Article("玉刚说", "谈谈程序员个人品牌的塑造", "1小时前", "", R.drawable.app_bg_java, "","https://mp.weixin.qq.com/s/MH0y1XukafaGBB_37U8L9Q"));
+        list.add(new Article("刘望舒", "写给Android Gradle知识体系", "1小时前", "", R.drawable.app_bg_java, "","https://mp.weixin.qq.com/s/YFMkJZXSqmc0OOuyAnc4mA"));
+        list.add(new Article("刘望舒", "JakeWharton评价我的代码像是在打地鼠？", "1小时前", "", R.drawable.app_bg_java, "","https://mp.weixin.qq.com/s/QRzUPiMKcw5q9HjVPYZYuA"));
+        list.add(new Article("刘望舒", "看了这篇文章，再也不怕ANR了！", "1小时前", "", R.drawable.app_bg_java, "","https://mp.weixin.qq.com/s/aQ7UENbxdlZjGagKfyi6VQ"));
+        list.add(new Article("刘望舒", "实现马蜂窝旅游头像泡泡动画", "1小时前", "", R.drawable.app_bg_java, "","https://mp.weixin.qq.com/s/wERc2Dv021sXSr8yQOLD1g"));
+        list.add(new Article("架构师社区", "到底选择PostgreSOL还是MySQL？看这里！", "1小时前", "", R.drawable.app_bg_java, "","https://mp.weixin.qq.com/s/ac7bZ4eHVrnQsPEagX_YWg"));
+        list.add(new Article("架构师社区", "头条创始人：我面试了两千个年轻人，发现混的好的都有这5种特质", "1小时前", "", R.drawable.app_bg_java, "","https://mp.weixin.qq.com/s/lK8VdhoQy3NLgz2lnwYGQw"));
+        return list;
+    }
+
+    /**
      * 获取推荐测试数据
      *
      * @return

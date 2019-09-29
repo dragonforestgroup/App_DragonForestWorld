@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.dragonforest.app.dragonforestworld.R;
-import com.dragonforest.app.module_common.utils.ToastUtils;
 
 public class ContactUsActivity extends AppCompatActivity {
 
@@ -22,7 +21,7 @@ public class ContactUsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact_us);
+        setContentView(R.layout.app_activity_contact_us);
         initView();
     }
 

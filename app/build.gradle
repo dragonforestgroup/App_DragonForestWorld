@@ -19,6 +19,7 @@ android {
         versionCode rootProject.ext.android.versionCode.toInteger()
         versionName rootProject.ext.android.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -44,6 +45,7 @@ android {
         }
     }
 
+
 }
 
 dependencies {
@@ -67,12 +69,16 @@ dependencies {
     if (!rootProject.ext.moduleSetting.isShareRunAlone.toBoolean()) {
         implementation project(':module_share')
     }
+    if (!rootProject.ext.moduleSetting.isPlanRunAlone.toBoolean()) {
+        implementation project(':module_plan')
+    }
 
     //====================三方依赖================================
     implementation 'de.hdodenhof:circleimageview:3.0.0'
     implementation 'com.github.xiaohaibin:XBanner:1.6.7'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation 'com.github.wildma:PictureSelector:1.1.4'
 
     //====================三方依赖-end============================
 }

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 我的界面
+ * 推荐界面
  *
  * @author 韩龙林
  * @date 2019/8/2 16:14

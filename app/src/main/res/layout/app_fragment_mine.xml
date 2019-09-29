@@ -7,7 +7,7 @@
 
 
     <!--头部信息-->
-    <RelativeLayout
+    <com.dragonforest.app.dragonforestworld.view.CompatLayout.CompatStatusBarRelativeLayout
         android:id="@+id/li_person_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
             android:textColor="@android:color/white"
             android:textSize="12sp"
             android:textStyle="italic" />
-    </RelativeLayout>
+    </com.dragonforest.app.dragonforestworld.view.CompatLayout.CompatStatusBarRelativeLayout>
     <!--头部信息end-->
     <!--条目信息-->
     <ScrollView
@@ -147,6 +147,31 @@
             </LinearLayout>
             <!--star数量end-->
 
+            <!--我的计划-->
+            <LinearLayout
+                android:id="@+id/ll_my_plan"
+                android:layout_marginTop="2px"
+                android:clickable="true"
+                android:background="@drawable/app_selector_item"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/app_icon_my_stars"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="我的计划"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="12sp"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+            <!--我的计划-->
+
             <!--收藏-->
             <LinearLayout
                 android:id="@+id/ll_my_collect"
@@ -221,6 +246,31 @@
                     android:gravity="center_vertical"/>
             </LinearLayout>
             <!--联系我们end-->
+
+            <!--设置-->
+            <LinearLayout
+                android:id="@+id/ll_setting"
+                android:layout_marginTop="2px"
+                android:clickable="true"
+                android:background="@drawable/app_selector_item"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/app_icon_setting"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="设置"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="12sp"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+            <!--设置end-->
         </LinearLayout>
     </ScrollView>
     <!--条目信息end-->
