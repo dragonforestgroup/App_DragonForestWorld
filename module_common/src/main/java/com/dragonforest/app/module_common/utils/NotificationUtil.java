@@ -51,7 +51,8 @@ public class NotificationUtil {
      */
     public void showNormalNotification(int id, String channelId, Context context, String title, int smallIcon, int largeIcon, Intent intent) {
         Notification.Builder notificationBuilder = createNotificationBuilder(channelId, context, title, smallIcon, largeIcon);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)(System.currentTimeMillis()/1000), intent, 0);
+        notificationBuilder.setAutoCancel(true);
         notificationBuilder.setContentIntent(pendingIntent);
         getManager(context).notify(id, notificationBuilder.build());
     }
@@ -70,7 +71,7 @@ public class NotificationUtil {
     @TargetApi(Build.VERSION_CODES.N)
     public void showFoldNotification(int id, String channelId, Context context, String title, int smallIcon, int largeIcon, Intent intent) {
         Notification.Builder notificationBuilder = createNotificationBuilder(channelId, context, title, smallIcon, largeIcon);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, id, intent, 0);
         notificationBuilder.setContentIntent(pendingIntent);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.remoteview_notify1);
         Notification notification = notificationBuilder.build();
@@ -91,7 +92,7 @@ public class NotificationUtil {
      */
     public void showHangNotification(int id, String channelId, Context context, String title, int smallIcon, int largeIcon, Intent intent) {
         Notification.Builder notificationBuilder = createNotificationBuilder(channelId, context, title, smallIcon, largeIcon);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, id, intent, 0);
         notificationBuilder.setContentIntent(pendingIntent);
 
         Intent hangIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.jd.com"));
@@ -109,6 +110,7 @@ public class NotificationUtil {
         Notification.Builder builder = new Notification.Builder(context);
         builder.setContentText(title);
         builder.setSmallIcon(smallIcon);
+        builder.setAutoCancel(true);
         builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), largeIcon));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             builder.setChannelId(channelId);

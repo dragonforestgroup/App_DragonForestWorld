@@ -3,4 +3,5 @@
     <color name="colorBlueForLoginTitle">#5CACEE</color>
     <color name="colorBlueForRegisterTitle">#4876FF</color>
     <color name="colorGrayForBackground">#F3F3F5</color>
+    <color name="colorBigGrayForText">#999999</color>
 </resources>

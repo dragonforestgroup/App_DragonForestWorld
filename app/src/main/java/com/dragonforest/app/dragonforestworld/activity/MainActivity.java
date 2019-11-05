@@ -1,9 +1,11 @@
 package com.dragonforest.app.dragonforestworld.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -13,10 +15,13 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.azhon.appupdate.config.UpdateConfiguration;
+import com.azhon.appupdate.manager.DownloadManager;
 import com.dragonforest.app.dragonforestworld.R;
 import com.dragonforest.app.dragonforestworld.adapter.MainFragmentPagerAdapter;
+import com.dragonforest.app.dragonforestworld.service.MainService;
 import com.dragonforest.app.module_common.utils.LogUtil;
-import com.dragonforest.app.module_common.utils.NotificationUtil;
+import com.dragonforest.app.module_common.utils.NavigationUtil;
 import com.dragonforest.app.module_common.utils.StatusBarUtil;
 import com.dragonforest.app.module_common.utils.ToastUtils;
 
@@ -28,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private BottomNavigationView navigation;
+    private Dialog upgradeDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +42,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.app_activity_main);
         LogUtil.D(getClass().getName(), "onCreate()");
         initView();
+        initData();
 //        StatusBarUtil.getInstance().setColor(this,getResources().getColor(R.color.colorBlueForLoginTitle));
         StatusBarUtil.getInstance().setTransparent(this);
         checkUpdate();
 
-        Log.e("MainActivity", "my ClassLoader"+MainActivity.class.getClassLoader());
-        Log.e("MainActivity", "my ClassLoader parent"+MainActivity.class.getClassLoader().getParent());
+        Log.e("MainActivity", "my ClassLoader" + MainActivity.class.getClassLoader());
+        Log.e("MainActivity", "my ClassLoader parent" + MainActivity.class.getClassLoader().getParent());
+
+
+        // 测试
+//        NavigationUtil.navigation(this, false, "com.dragonforest.app.dragonforestworld.test.TestOAListActivity");
 
     }
 
@@ -49,10 +60,15 @@ public class MainActivity extends AppCompatActivity {
      * 检查更新
      */
     private void checkUpdate() {
-        Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.taobao.com"));
-        NotificationUtil.getInstance().showNormalNotification(1,NotificationUtil.CHANNEL_ID_MESSAGE,this,"普通通知",android.R.drawable.star_on,R.drawable.app_icon_add,intent);
-        NotificationUtil.getInstance().showFoldNotification(2,NotificationUtil.CHANNEL_ID_MESSAGE,this,"折叠式通知",android.R.drawable.sym_def_app_icon,R.drawable.app_icon_add,intent);
-        NotificationUtil.getInstance().showHangNotification(3,NotificationUtil.CHANNEL_ID_NOTICE,this,"悬挂式通知",android.R.drawable.ic_notification_overlay,android.R.drawable.ic_notification_overlay,intent);
+//        Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.taobao.com"));
+//        NotificationUtil.getInstance().showNormalNotification(1,NotificationUtil.CHANNEL_ID_MESSAGE,this,"普通通知",android.R.drawable.star_on,R.drawable.app_icon_add,intent);
+//        NotificationUtil.getInstance().showFoldNotification(2,NotificationUtil.CHANNEL_ID_MESSAGE,this,"折叠式通知",android.R.drawable.sym_def_app_icon,R.drawable.app_icon_add,intent);
+//        NotificationUtil.getInstance().showHangNotification(3,NotificationUtil.CHANNEL_ID_NOTICE,this,"悬挂式通知",android.R.drawable.ic_notification_overlay,android.R.drawable.ic_notification_overlay,intent);
+        // 检查更新  ----使用自己编写的库更新
+//        if (UpgradeUtil.getInstance(this).checkUpgrade(2)) {
+//            showUpgradeDialog();
+//        }
+        showUpgradeDialog();
     }
 
     /**
@@ -95,7 +111,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        Intent intent = new Intent(MainActivity.this, MainService.class);
+        startService(intent);
+    }
 
+    private void showUpgradeDialog() {
+        if (upgradeDialog == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("版本更新");
+            builder.setMessage("检测到有新版本，是否立即更新");
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+//                    String testUrl = "http://s9.pstatp.com/package/apk/aweme/aweme_aweGW_v8.2.0_443014c.apk";
+                    String testUrl = "https://imgaliyuncdn.miaopai.com/apk/201803/22/miaopai_yx_ewm.apk";
+                    // 使用自己的库更新
+//                    UpgradeUtil.getInstance(getApplicationContext()).startUpgrade(testUrl);
+                    // 使用第三方库更新
+                    DownloadManager manager = DownloadManager.getInstance(getApplicationContext());
+                    UpdateConfiguration updateConfiguration=new UpdateConfiguration();
+                    manager.setApkName("appupdate.apk")
+                            .setApkUrl(testUrl)
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setAuthorities("com.dragonforest.app.dragonforestworld")
+                            //可设置，可不设置
+//                            .setConfiguration()
+                            .download();
+                    dialog.dismiss();
+                }
+            });
+            upgradeDialog = builder.show();
+        } else {
+            upgradeDialog.show();
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent(MainActivity.this, MainService.class);
+        stopService(intent);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

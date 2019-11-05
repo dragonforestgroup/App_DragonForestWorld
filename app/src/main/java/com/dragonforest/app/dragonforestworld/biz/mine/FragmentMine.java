@@ -44,10 +44,12 @@ public class FragmentMine extends Fragment implements View.OnClickListener {
     private LinearLayout ll_my_offer;
     private LinearLayout ll_my_stars;
     private LinearLayout ll_my_plan;
+    private LinearLayout ll_my_msg;
     private LinearLayout ll_my_collect;
     private LinearLayout ll_my_share;
     private LinearLayout ll_contact_us;
     private LinearLayout ll_setting;
+    private LinearLayout ll_test;
 
     @Nullable
     @Override
@@ -73,11 +75,14 @@ public class FragmentMine extends Fragment implements View.OnClickListener {
         ll_my_publish = v.findViewById(R.id.ll_my_publish);
         ll_my_offer = v.findViewById(R.id.ll_my_offer);
         ll_my_stars = v.findViewById(R.id.ll_my_stars);
-        ll_my_plan=v.findViewById(R.id.ll_my_plan);
+        ll_my_plan = v.findViewById(R.id.ll_my_plan);
+        ll_my_msg = v.findViewById(R.id.ll_my_msg);
         ll_my_collect = v.findViewById(R.id.ll_my_collect);
         ll_my_share = v.findViewById(R.id.ll_my_share);
         ll_contact_us = v.findViewById(R.id.ll_contact_us);
         ll_setting = v.findViewById(R.id.ll_setting);
+        ll_test = v.findViewById(R.id.ll_test);
+
 
         tv_exit_login.setOnClickListener(this);
         img_head.setOnClickListener(this);
@@ -85,10 +90,12 @@ public class FragmentMine extends Fragment implements View.OnClickListener {
         ll_my_offer.setOnClickListener(this);
         ll_my_stars.setOnClickListener(this);
         ll_my_plan.setOnClickListener(this);
+        ll_my_msg.setOnClickListener(this);
         ll_my_collect.setOnClickListener(this);
         ll_my_share.setOnClickListener(this);
         ll_contact_us.setOnClickListener(this);
         ll_setting.setOnClickListener(this);
+        ll_test.setOnClickListener(this);
     }
 
     private void initData() {
@@ -134,6 +141,9 @@ public class FragmentMine extends Fragment implements View.OnClickListener {
             case R.id.ll_my_plan:
                 gotoPlan();
                 break;
+            case R.id.ll_my_msg:
+                gotoMessage();
+                break;
             case R.id.ll_my_collect:
                 defaultProcess();
                 break;
@@ -145,6 +155,9 @@ public class FragmentMine extends Fragment implements View.OnClickListener {
                 break;
             case R.id.ll_setting:
                 gotoSetting();
+                break;
+            case R.id.ll_test:
+                gotoTest();
                 break;
             default:
                 break;
@@ -219,7 +232,15 @@ public class FragmentMine extends Fragment implements View.OnClickListener {
 
 
     private void gotoPlan() {
-        NavigationUtil.navigation(getActivity(),false,"com.dragonforest.app.module_plan.activity.PlanActivityMainActivity");
+        NavigationUtil.navigation(getActivity(), false, "com.dragonforest.app.module_plan.activity.PlanActivityMain");
+    }
+
+    private void gotoMessage() {
+        NavigationUtil.navigation(getActivity(), false, "com.dragonforest.app.dragonforestworld.biz.mine.activity.message.MessageActivity");
+    }
+
+    private void gotoTest() {
+        NavigationUtil.navigation(getActivity(), false, "com.dragonforest.app.dragonforestworld.test.TestOAListActivity");
     }
 
     @Override
@@ -241,7 +262,7 @@ public class FragmentMine extends Fragment implements View.OnClickListener {
                     cacheUserInfo.setUserHeadImg(picturePath);
                     LoginUtil.saveUserInfo(getActivity(), cacheUserInfo);
                 }
-                ToastUtils.show("更换头像成功！",getActivity());
+                ToastUtils.show("更换头像成功！", getActivity());
 
                 // 上传到服务器中
 
@@ -253,7 +274,7 @@ public class FragmentMine extends Fragment implements View.OnClickListener {
                         .circleCropTransform()
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true);
-                Glide.with(this).load(picturePath).apply(requestOptions).into(mIvImage);*/
+                Glide.with(this).load(picturePath).libview_oa_money(requestOptions).into(mIvImage);*/
             }
         }
     }

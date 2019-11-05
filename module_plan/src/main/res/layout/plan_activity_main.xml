@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.PlanActivityMainActivity">
+    tools:context="com.dragonforest.app.module_plan.activity.PlanActivityMain">
 
     <com.dragonforest.app.module_common.view.CompatLayout.CompatStatusBarLinearLayout
+        android:id="@+id/ll_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#cd3636"
@@ -39,10 +40,10 @@
     </com.dragonforest.app.module_common.view.CompatLayout.CompatStatusBarLinearLayout>
 
     <com.codbking.calendar.CalendarLayout
+        android:layout_below="@+id/ll_top"
         android:id="@+id/calendarLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
         <com.codbking.calendar.CalendarDateView
             android:id="@+id/calendarDateView"
@@ -57,13 +58,15 @@
 
     </com.codbking.calendar.CalendarLayout>
 
-    <TextView
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="18dp"
+        android:elevation="20dp"
+        android:src="@drawable/plan_icon_add"
+        app:backgroundTint="#0882f4" />
 
-</LinearLayout>
+</RelativeLayout>

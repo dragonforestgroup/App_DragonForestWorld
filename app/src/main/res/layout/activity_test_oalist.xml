@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".test.TestOAListActivity">
+
+
+    <!--<com.dragonforest.app.lib_view.flexlayout.FlexLayout-->
+    <!--android:id="@+id/flexLayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:background="@color/colorAccent"-->
+    <!--android:orientation="horizontal">-->
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="标题"/>-->
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="100dp"-->
+    <!--android:text="更多"/>-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="200dp"-->
+    <!--android:background="@color/colorBlueForLoginTitle"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:orientation="horizontal">-->
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="我是底部内容"/>-->
+    <!--</LinearLayout>-->
+    <!--</com.dragonforest.app.lib_view.flexlayout.FlexLayout>-->
+
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:scrollbars="vertical">-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="vertical">-->
+
+            <!--<com.dragonforest.app.lib_view.oagroupLayout.OAGroupView-->
+                <!--android:id="@+id/oaItemView"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"></com.dragonforest.app.lib_view.oagroupLayout.OAGroupView>-->
+
+            <!--<com.dragonforest.app.lib_view.oagroupLayout.OAGroupView-->
+                <!--android:id="@+id/oaItemView2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"></com.dragonforest.app.lib_view.oagroupLayout.OAGroupView>-->
+        <!--</LinearLayout>-->
+    <!--</ScrollView>-->
+
+    <com.dragonforest.app.lib_view.scrolllinearlayout.ScrollLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollLinearLayout"></com.dragonforest.app.lib_view.scrolllinearlayout.ScrollLinearLayout>
+    <com.dragonforest.app.lib_view.ximage.XImageView
+        android:id="@+id/ximageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/colorPrimary"/>
+</LinearLayout>

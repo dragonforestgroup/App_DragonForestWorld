@@ -59,6 +59,20 @@ public class PlanListAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void setData(List<PlanInfo> list){
+        this.list=list;
+        notifyDataSetChanged();
+    }
+
+    public List<PlanInfo> getData(){
+        return list;
+    }
+
+    public void clear(){
+        list.clear();
+        notifyDataSetChanged();
+    }
+
     static class EventViewHolder {
         TextView tv_date;
         TextView tv_event;

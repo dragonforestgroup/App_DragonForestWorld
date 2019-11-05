@@ -1,7 +1,11 @@
 package com.dragonforest.app.module_plan.activity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +27,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class PlanActivityMainActivity extends AppCompatActivity {
+public class PlanActivityMain extends AppCompatActivity {
 
     CalendarDateView calendarDateView;
     TextView tv_title;
     ImageView img_back;
     ListView listView;
+    FloatingActionButton fab_add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,36 +47,56 @@ public class PlanActivityMainActivity extends AppCompatActivity {
     private void initView() {
         calendarDateView = findViewById(R.id.calendarDateView);
         initCalendar(calendarDateView);
-        listView=findViewById(R.id.listview);
+        listView = findViewById(R.id.listview);
         initListView(listView);
         tv_title = findViewById(R.id.tv_title);
         img_back = findViewById(R.id.img_back);
+        fab_add = findViewById(R.id.fab_add);
         img_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+        fab_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PlanActivityMain.this,PlanActivityAddPlan.class));
+            }
+        });
     }
 
     private void initListView(ListView listView) {
-        List<PlanInfo> planInfoList=new ArrayList<>();
-        for(int i=0;i<10;i++){
-            PlanInfo planInfo=new PlanInfo();
-            planInfo.setDate(1994,11,2+i);
-            planInfo.setTime(12+i,24,15);
-            planInfo.setThing("今天上山打老虎"+i);
-            planInfo.setLevel(1);
-            planInfo.setType(2);
-            planInfoList.add(planInfo);
-        }
-        PlanListAdapter planListAdapter=new PlanListAdapter(planInfoList,this);
+        List<PlanInfo> planInfoList = new ArrayList<>();
+        PlanListAdapter planListAdapter = new PlanListAdapter(planInfoList, this);
         listView.setAdapter(planListAdapter);
+
+        TextView tv_empty=new TextView(this);
+        tv_empty.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        tv_empty.setText("今天还没有计划哦 ^_^!!");
+        tv_empty.setTextSize(20);
+        tv_empty.setGravity(Gravity.CENTER);
+        tv_empty.setTextColor(Color.RED);
+        tv_empty.setBackgroundColor(Color.WHITE);
+        ((ViewGroup)listView.getParent()).addView(tv_empty);
+        listView.setEmptyView(tv_empty);
     }
 
     private void initData() {
         int[] data = CalendarUtil.getYMD(new Date());
         tv_title.setText(data[0] + "/" + data[1] + "/" + data[2]);
+
+        List<PlanInfo> planInfoList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            PlanInfo planInfo = new PlanInfo();
+            planInfo.setDate(1994, 11, 2 + i);
+            planInfo.setTime(12 + i, 24, 15);
+            planInfo.setThing("今天上山打老虎" + i);
+            planInfo.setLevel(1);
+            planInfo.setType(2);
+            planInfoList.add(planInfo);
+        }
+        ((PlanListAdapter) listView.getAdapter()).setData(planInfoList);
     }
 
     private void initCalendar(CalendarDateView mCalendarDateView) {
@@ -102,6 +127,7 @@ public class PlanActivityMainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int postion, CalendarBean bean) {
                 tv_title.setText(bean.year + "/" + bean.moth + "/" + bean.day);
+                ((PlanListAdapter)listView.getAdapter()).clear();
             }
         });
 

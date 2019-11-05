@@ -14,3 +14,15 @@
 
 ## module_share 
 * 分享模块，社区分享
+
+## lib_upgrade
+* app升级模块（已被第三方appUpgrade库替代）
+
+## libview
+* 自定义view库
+
+## module_plan
+* 计划功能模块
+
+## module_mesage
+* 消息功能模块

@@ -4,8 +4,10 @@
 
     <application>
         <activity
-            android:name=".activity.PlanActivityMainActivity"
+            android:name=".activity.PlanActivityMain"
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+        <activity android:name=".activity.PlanActivityAddPlan" android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
     </application>
 
 </manifest>

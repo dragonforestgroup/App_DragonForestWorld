@@ -43,7 +43,8 @@ ext {
             isLoginRunAlone   : false,   // 登录模块是否独立运行
             isPushlishRunAlone: false,  // 发布模块是否独立运行
             isShareRunAlone   : false,  // 分享模块是否独立运行
-            isPlanRunAlone   : false  // 计划模块是否独立运行
+            isPlanRunAlone   : false,  // 计划模块是否独立运行
+            isMessageRunAlone   : true  // 计划模块是否独立运行
     ]
     //个性化
     personalInfo = [

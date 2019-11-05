@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    tools:context="com.dragonforest.app.module_message.MessageDetailActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorBlueForLoginTitle"
+        app:title="消息"
+        app:titleTextColor="@android:color/white"></android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="15sp"
+            android:text="主题"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:textColor="@color/colorBlueForRegisterTitle" />
+        <TextView
+            android:id="@+id/tv_topic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="15sp"
+            android:text="主题"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:textStyle="bold"
+            android:textColor="@color/design_default_color_primary" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right">
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="13sp"
+            android:text="2018/11/2 8:48"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:layout_gravity="right"
+            android:textColor="@color/colorBigGrayForText" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="15sp"
+        android:text="消息主体"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:textColor="@color/colorBlueForLoginTitle"
+        android:background="@color/colorGrayForBackground"/>
+</LinearLayout>
