@@ -17,13 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MessageDetailActivity"
+            android:name=".messageInter.MessageDetailActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
         <activity
-            android:name=".MessageHistoryActivity"
+            android:name=".messageInter.MessageHistoryActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".MqttActivity"
+            android:name=".messageOuter.MessageActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,13 +1,9 @@
-package com.dragonforest.app.module_message;
+package com.dragonforest.app.module_message.activity;
 
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,9 +12,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.dragonforest.app.module_common.utils.ToastUtils;
+import com.dragonforest.app.module_message.R;
 import com.dragonforest.app.module_message.application.MyApplication;
 import com.dragonforest.app.module_message.event.ConnectStatusEvent;
-import com.dragonforest.app.module_message.mqtt.MqttService;
+import com.dragonforest.app.module_message.messageInter.MessageHistoryActivity;
+import com.dragonforest.app.module_message.mqtt.MqttManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -31,7 +29,6 @@ public class MqttActivity extends AppCompatActivity {
     private Button btn_history;
     private TextView tv_status;
     private TextView tv_user;
-    private MqttService.MqttBinder myBinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,23 +37,26 @@ public class MqttActivity extends AppCompatActivity {
         initView();
         initData();
 
-        Intent intent = new Intent(MqttActivity.this, MqttService.class);
-        startService(intent);
-        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-        Log.e("MqttActivity","onCreate()");
+        String[] topics = {"hanlonglin", "dragon"};
+        int[] qoss = {1, 1};
+        MqttManager.getInstance().init(
+                "tcp://172.16.17.71:1884",
+                "com.dragonforest.app.module_message",
+                topics,
+                qoss,
+                this);
+        Log.e("MqttActivity", "onCreate()");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(serviceConnection);
-        Log.e("MqttActivity","onDestroy()");
+        Log.e("MqttActivity", "onDestroy()");
     }
 
     @Override
@@ -79,9 +79,7 @@ public class MqttActivity extends AppCompatActivity {
         btn_show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (myBinder != null) {
-                    ToastUtils.show("当前连接数：" + myBinder.getAllConnect().size(), MqttActivity.this);
-                }
+
             }
         });
         btn_history.setOnClickListener(new View.OnClickListener() {
@@ -101,21 +99,6 @@ public class MqttActivity extends AppCompatActivity {
             }
         });
     }
-
-    ServiceConnection serviceConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            myBinder = (MqttService.MqttBinder) service;
-            Log.e("MqttActivity","onServiceConnected()");
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            Log.e("MqttActivity","onServiceDisconnected()");
-            myBinder = null;
-        }
-    };
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -138,10 +121,10 @@ public class MqttActivity extends AppCompatActivity {
         builder.setCancelable(true);
 
         // 找出当前clientId所在的下标
-        int index=0;
+        int index = 0;
         for (int i = 0; i < MyApplication.clientIds.length; i++) {
             if (MyApplication.currentClientId.equals(MyApplication.clientIds[i])) {
-                index=i;
+                index = i;
                 break;
             }
         }

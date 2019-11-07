@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_splash2"
+    tools:context=".activity.SplashActivity">
+
+
+    <yanzhikai.textpath.SyncTextPathView
+        android:id="@+id/stpv_dg"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:showPainterActually="true"
+        app:duration="10000"
+        app:showPainter="true"
+        app:text="DragonForest"
+        app:textInCenter="true"
+        app:textSize="40sp"
+        app:paintStrokeColor="@android:color/holo_orange_dark"
+        android:layout_weight="1"
+        />
+
+    <yanzhikai.textpath.SyncTextPathView
+        android:id="@+id/stpv_fight"
+        android:layout_below="@+id/stpv_dg"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:duration="5000"
+        app:showPainter="true"
+        app:text="Let's fight......"
+        app:textInCenter="true"
+        app:paintStrokeColor="@color/colorPrimary"
+        app:textSize="20sp"
+        android:layout_weight="1"
+        />
+
+    <TextView
+        android:id="@+id/tv_seconds"
+        android:layout_below="@+id/stpv_fight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        android:padding="5dp"
+        android:textSize="12sp"
+        android:alpha="0.8"
+        android:textColor="@android:color/white"
+        android:text=""/>
+
+</RelativeLayout>

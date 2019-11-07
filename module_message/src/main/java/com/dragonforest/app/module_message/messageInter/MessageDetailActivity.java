@@ -1,4 +1,4 @@
-package com.dragonforest.app.module_message;
+package com.dragonforest.app.module_message.messageInter;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.dragonforest.app.module_common.utils.LogUtil;
+import com.dragonforest.app.module_message.R;
 import com.dragonforest.app.module_message.database.MessageModel;
 
 import java.text.SimpleDateFormat;
@@ -46,7 +47,7 @@ public class MessageDetailActivity extends AppCompatActivity {
 
     private void initData() {
         MessageModel messageModel = (MessageModel) getIntent().getSerializableExtra("message");
-        LogUtil.E("DefaultMEssageActiciry", "收到消息：" + messageModel.getMessage());
+        LogUtil.E("DefaultMessageActiciry", "收到消息：" + messageModel.getMessage());
         if (messageModel != null) {
             tv_content.setText(messageModel.getMessage() + "");
             tv_topic.setText(messageModel.getTopic() + "");

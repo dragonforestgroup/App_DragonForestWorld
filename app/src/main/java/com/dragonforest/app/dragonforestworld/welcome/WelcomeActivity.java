@@ -68,8 +68,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         list.add(WelcomeFragment.newInstance(R.drawable.app_welcome_bg1,R.drawable.app_welcome_logo1,"This is a megical world","here you can find what you want to konw,and find the direction."));
         list.add(WelcomeFragment.newInstance(R.drawable.app_welcome_bg2,R.drawable.app_welcome_logo2,"Who am I?","I am DragonForest,like all of us,I have a dream,that is become powerful"));
         list.add(WelcomeFragment.newInstance(R.drawable.app_welcome_bg3,R.drawable.app_welcome_logo3,"How to improve ourself?","I collect the best article whitch can make everyone understand the konwledge."));
-        WelcomeFragmentAdater adater=new WelcomeFragmentAdater(getSupportFragmentManager(),list);
-        vp.setAdapter(adater);
+        WelcomeFragmentAdater adapter=new WelcomeFragmentAdater(getSupportFragmentManager(),list);
+        vp.setAdapter(adapter);
 
         vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

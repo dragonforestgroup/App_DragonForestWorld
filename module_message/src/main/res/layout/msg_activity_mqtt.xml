@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/white"
-    tools:context="com.dragonforest.app.module_message.MqttActivity">
+    tools:context="com.dragonforest.app.module_message.activity.MqttActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

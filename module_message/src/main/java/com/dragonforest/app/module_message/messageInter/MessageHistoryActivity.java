@@ -1,4 +1,4 @@
-package com.dragonforest.app.module_message;
+package com.dragonforest.app.module_message.messageInter;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -7,15 +7,19 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
-import com.dragonforest.app.module_message.adapter.MessageAdapter;
+import com.dragonforest.app.module_message.R;
+import com.dragonforest.app.module_message.messageInter.adapter.MessageAdapter;
+import com.dragonforest.app.module_message.database.MessageDBHelper;
 import com.dragonforest.app.module_message.database.MessageModel;
+import com.dragonforest.app.module_message.event.MessageStatusEvent;
+import com.dragonforest.app.module_message.messageOuter.bean.MessageOuterModel;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +27,20 @@ import java.util.List;
 public class MessageHistoryActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewMsg;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.msg_activity_history);
+        initView();
+        initData();
+    }
+
+    private void initView() {
+        toolbar = findViewById(R.id.toolbar);
         recyclerViewMsg = findViewById(R.id.recyclerViewMsg);
         initRecyclerView(recyclerViewMsg);
-        initData();
     }
 
 
@@ -68,8 +78,19 @@ public class MessageHistoryActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        List<MessageModel> messageModels = LitePal.findAll(MessageModel.class);
-        ((MessageAdapter) recyclerViewMsg.getAdapter()).setData(messageModels);
+        MessageOuterModel messageOuterModel = (MessageOuterModel) getIntent().getSerializableExtra("messageOuterModel");
+        if (messageOuterModel != null) {
+            String sendClientID = messageOuterModel.getSendClientID();
+            toolbar.setTitle(sendClientID+"");
+            // 设置列表
+            List<MessageModel> messageModels = MessageDBHelper.getMessageOrderByDate(messageOuterModel.getType(),sendClientID);
+            ((MessageAdapter) recyclerViewMsg.getAdapter()).setData(messageModels);
+            // 设置所有为已读
+            if (messageOuterModel.getUnReadNum() > 0) {
+                MessageDBHelper.updateMessageStatus(messageOuterModel.getType(),sendClientID, 1);
+                EventBus.getDefault().post(new MessageStatusEvent(sendClientID, messageOuterModel.getType()));
+            }
+        }
     }
 
     private void showDeleteDialog(final MessageModel messageModel) {
@@ -94,7 +115,7 @@ public class MessageHistoryActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(MessageModel messageModel) {
+    public void onMessageReceivedEvent(MessageModel messageModel) {
         /* Do something */
         ((MessageAdapter) recyclerViewMsg.getAdapter()).addItem(messageModel);
     }

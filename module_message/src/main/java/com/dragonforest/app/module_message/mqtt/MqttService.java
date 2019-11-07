@@ -8,9 +8,12 @@ import android.util.Log;
 
 import com.dragonforest.app.module_common.utils.LogUtil;
 import com.dragonforest.app.module_common.utils.NotificationUtil;
-import com.dragonforest.app.module_message.MessageDetailActivity;
+import com.dragonforest.app.module_message.database.MessageDBHelper;
 import com.dragonforest.app.module_message.database.MessageModel;
 import com.dragonforest.app.module_message.event.ConnectStatusEvent;
+import com.dragonforest.app.module_message.event.MessageStatusEvent;
+import com.dragonforest.app.module_message.log.MessageLog;
+import com.dragonforest.app.module_message.messageInter.MessageDetailActivity;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -19,7 +22,6 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,12 +29,9 @@ import java.util.List;
  * @author 韩龙林
  * @date 2019/10/22 15:01
  */
-public class MqttService extends Service{
+public class MqttService extends Service {
 
     private String TAG = "MqttService";
-
-    String serverURI = "tcp://172.16.17.248:1884";
-    String clientID = "com.dragonforest.app.module_message";
 
     List<MqttConnection> connections = new ArrayList<>();
     MqttBinder myBinder = new MqttBinder();
@@ -49,10 +48,10 @@ public class MqttService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         LogUtil.E(TAG, "onStartCommand()");
 //        // 判断是否已经连接
-//        MqttConnection currentConnection = getCurrentConnection(serverURI + "&" + clientID);
+//        MqttConnection currentConnection = getCurrentConnection(MqttConfig.getServerURI() + "&" + MqttConfig.getClientID());
 //        if (currentConnection != null) {
 //            if (currentConnection.isConnected()) {
-//                EventBus.getDefault().post(new ConnectStatusEvent(1, "已连接到服务：" + currentConnection.getServerURI()));
+//                EventBus.getDefault().post(new ConnectStatusEvent(1, "已连接到服务：" + currentConnection.getMqttConfig.getServerURI()()));
 //            } else {
 ////                EventBus.getDefault().post(new ConnectStatusEvent(-1, "连接已断开，请重新连接!"));
 //                // 重新连接
@@ -66,7 +65,7 @@ public class MqttService extends Service{
 
         if (isCurrentConnect()) {
             LogUtil.E(TAG, "当前已连接");
-            EventBus.getDefault().post(new ConnectStatusEvent(1, "已连接到服务：" + serverURI));
+            EventBus.getDefault().post(new ConnectStatusEvent(1, "已连接到服务：" + MqttConfig.getServerURI()));
         } else {
             // 重新连接
             LogUtil.E(TAG, "当前未连接，开始重新连接...");
@@ -110,9 +109,9 @@ public class MqttService extends Service{
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
-        MqttConnection currentConnection = getCurrentConnection(serverURI + "&" + clientID);
+        MqttConnection currentConnection = getCurrentConnection(MqttConfig.getServerURI() + "&" + MqttConfig.getClientID());
         if (currentConnection == null) {
-            currentConnection = new MqttConnection(serverURI, clientID, getApplicationContext());
+            currentConnection = new MqttConnection(MqttConfig.getServerURI(), MqttConfig.getClientID(), getApplicationContext());
             currentConnection.setMqttCallback(mqttCallback);
             connections.add(currentConnection);
         }
@@ -120,10 +119,10 @@ public class MqttService extends Service{
             boolean isConnected = currentConnection.connect();
             if (isConnected) {
                 EventBus.getDefault().post(new ConnectStatusEvent(1, "已连接到服务：" + currentConnection.getServerURI()));
-                currentConnection.getClient().subscribe("hanlonglin", 1);
+                currentConnection.getClient().subscribe(MqttConfig.getTopics(), MqttConfig.getQoss());
             } else {
                 connections.remove(currentConnection);
-                EventBus.getDefault().post(new ConnectStatusEvent(-1, "连接失败!" + serverURI));
+                EventBus.getDefault().post(new ConnectStatusEvent(-1, "连接失败!" + MqttConfig.getServerURI()));
             }
         } catch (MqttException e) {
             e.printStackTrace();
@@ -139,7 +138,7 @@ public class MqttService extends Service{
      * @return
      */
     public boolean isCurrentConnect() {
-        MqttConnection currentConnection = getCurrentConnection(serverURI + "&" + clientID);
+        MqttConnection currentConnection = getCurrentConnection(MqttConfig.getServerURI() + "&" + MqttConfig.getClientID());
         if (currentConnection != null && currentConnection.isConnected()) {
             return true;
         } else {
@@ -156,19 +155,10 @@ public class MqttService extends Service{
         return null;
     }
 
-    private MessageModel saveToDatabase(String topic, MqttMessage message) {
-        MessageModel messageModel = new MessageModel();
-        messageModel.setMessage(message.toString());
-        messageModel.setTopic(topic);
-        messageModel.setDate(new Date());
-        messageModel.save();
-        return messageModel;
-    }
-
     MqttCallback mqttCallback = new MqttCallback() {
         @Override
         public void connectionLost(Throwable cause) {
-            Log.e(TAG, "connectionLost 连接断开" + cause.getMessage());
+            Log.e(TAG, "connectionLost 连接断开" + cause.getMessage().toString());
             EventBus.getDefault().post(new ConnectStatusEvent(-1, "连接断开!" + cause.getMessage()));
         }
 
@@ -181,13 +171,24 @@ public class MqttService extends Service{
                 2.显示通知
                 3.通知EventBus当前监听者
              */
-            MessageModel messageModel = saveToDatabase(topic, message);
+            MessageModel messageModel = MessageDBHelper.saveMessage(topic, message.toString());
+            if (messageModel == null) {
+                // 消息有问题,忽略掉
+                Log.e(TAG, "消息格式错误，忽略" + message.toString());
+                return;
+            }
+            // 记录日志
+            MessageLog.D(getApplicationContext(),messageModel.toString());
+            // 显示通知状态栏
             Intent intent = new Intent();
             intent.setClass(getApplicationContext(), MessageDetailActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("message", messageModel);
             NotificationUtil.getInstance().showNormalNotification(1, NotificationUtil.CHANNEL_ID_MESSAGE, getApplicationContext(), "收到一条消息", android.R.drawable.ic_menu_report_image, android.R.drawable.ic_menu_report_image, intent);
+            // 通知新消息
             EventBus.getDefault().post(messageModel);
+            // 通知消息状态变化
+            EventBus.getDefault().post(new MessageStatusEvent(messageModel.getSendClientID(),messageModel.getType()));
         }
 
         @Override
