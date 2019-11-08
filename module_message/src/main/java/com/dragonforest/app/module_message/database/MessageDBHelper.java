@@ -2,10 +2,13 @@ package com.dragonforest.app.module_message.database;
 
 import android.database.Cursor;
 
+import com.dragonforest.app.module_message.messageOuter.bean.MessageOuterModel;
+
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -39,8 +42,9 @@ public class MessageDBHelper {
      * @return
      */
     public static List<String> getAllSendClientIDs(int type) {
+        String sql = "select sendclientid,max(date) as mdate from messageModel where type=" + type + " group by sendclientid order by mdate desc";
         List<String> clientIds = new ArrayList<>();
-        Cursor cursor = LitePal.findBySQL("select sendclientid,max(date) as mdate from messageModel where type=" + type + " group by sendclientid order by mdate desc");
+        Cursor cursor = LitePal.findBySQL(sql);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             String clientId = cursor.getString(0);
@@ -50,6 +54,46 @@ public class MessageDBHelper {
         cursor.close();
         return clientIds;
     }
+
+    /**
+     * 获取所有外层message
+     *
+     * @return
+     */
+    public static LinkedList<MessageOuterModel> getAllMessageOuterModels() {
+        return getAllMessageOuterModels(-1);
+    }
+
+    /**
+     * 获取所有外层message
+     *
+     * @return
+     */
+    public static LinkedList<MessageOuterModel> getAllMessageOuterModels(int mtype) {
+        LinkedList<MessageOuterModel> messageOuterModels = new LinkedList<>();
+        String sql = "";
+        if (mtype != -1) {
+            sql = "select sendclientid,type,max(date) as mdate from messageModel where type=" + mtype + " group by sendclientid,type order by mdate desc";
+        } else {
+            sql = "select sendclientid,type,max(date) as mdate from messageModel group by sendclientid,type order by mdate desc";
+        }
+        Cursor cursor = LitePal.findBySQL(sql);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String clientId = cursor.getString(0);
+            int type = cursor.getInt(1);
+            MessageModel newestMessage = getNewestMessage(type, clientId);
+            if (newestMessage != null) {
+                int unReadMessageNum = getUnReadMessageNum(type, clientId);
+                MessageOuterModel messageOuterModel = new MessageOuterModel(type, clientId, newestMessage, unReadMessageNum);
+                messageOuterModels.add(messageOuterModel);
+            }
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return messageOuterModels;
+    }
+
 
     /**
      * 获取未读消息数量

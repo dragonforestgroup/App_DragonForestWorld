@@ -19,20 +19,11 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        LitePal.initialize(this);
-        changeUser(clientIds[0]);
 
         // 初始化客户端消息监听
 //        String[] topics = {"hanlonglin","dragon"};
 //        int[] qoss = {2,2};
-        String[] topics = {"hanlonglin"};
-        int[] qoss = {1};
-        MqttManager.getInstance().init(
-                "tcp://172.16.17.71:1884",
-                "com.dragonforest.app.module_message",
-                topics,
-                qoss,
-                this);
+
     }
 
     public static void changeUser(String clientID) {

@@ -1,25 +1,25 @@
 package com.dragonforest.app.module_message.messageOuter.fragment;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import com.dragonforest.app.module_message.database.MessageDBHelper;
+import com.dragonforest.app.module_message.messageOuter.bean.MessageOuterModel;
 
-import com.dragonforest.app.module_message.R;
+import java.util.LinkedList;
 
 
 /**
  * @author 韩龙林
  * @date 2019/10/8 19:56
  */
-public class AllFragment extends Fragment {
-    @Nullable
+public class AllFragment extends BaseMessageOuterFragment {
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.msg_fragment,container,false);
-        return v;
+    public int initMessageType() {
+        // 全部类型 此值为-1
+        return -1;
+    }
+
+    @Override
+    public LinkedList<MessageOuterModel> getData() {
+        return MessageDBHelper.getAllMessageOuterModels();
     }
 }

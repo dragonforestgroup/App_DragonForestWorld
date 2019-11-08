@@ -236,7 +236,7 @@ public class FragmentMine extends Fragment implements View.OnClickListener {
     }
 
     private void gotoMessage() {
-        NavigationUtil.navigation(getActivity(), false, "com.dragonforest.app.dragonforestworld.biz.mine.activity.message.MessageActivity");
+        NavigationUtil.navigation(getActivity(), false, "com.dragonforest.app.module_message.messageOuter.MessageActivity");
     }
 
     private void gotoTest() {

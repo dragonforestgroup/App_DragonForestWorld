@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dragonforest.app.module_message">
-
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <application>
-        <activity android:name=".MessageMainActivity">
-        </activity>
-        <activity android:name=".messageInter.MessageDetailActivity">
-        </activity>
+        <activity
+            android:name=".messageInter.MessageHistoryActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".messageInter.MessageDetailActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".messageOuter.MessageActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <service android:name=".mqtt.MqttService" />
     </application>
 
 </manifest>

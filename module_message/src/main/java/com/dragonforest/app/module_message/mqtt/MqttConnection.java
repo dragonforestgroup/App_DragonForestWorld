@@ -69,7 +69,14 @@ public class MqttConnection implements IConnection {
         try {
             client = new MqttClient(serverURI, clientID, persistence);
             connOpts = new MqttConnectOptions();
+            // 设置心跳时间间隔
+            // 注意：当客户端断网重连后，如果此值过大则服务端要过重连时间周期才能重新连上，所以不宜过大
+            connOpts.setKeepAliveInterval(10);
+            // 设置保持之前的回话，再次连接可以获取之前的消息
             connOpts.setCleanSession(false);  // 设置为false 可以收到离线后推送的消息
+            // 设置遗嘱消息，在客户端异常断开之后会向相应topic发送消息
+            connOpts.setWill("connection", "close".getBytes(), 1, true);
+            // 设置回调
             client.setCallback(mqttCallback);
         } catch (MqttException e) {
             Log.e(TAG, "client 初始化失败：" + e.getMessage());
@@ -111,6 +118,14 @@ public class MqttConnection implements IConnection {
         if (client != null)
             return client.isConnected();
         return false;
+    }
+
+    public void release() {
+        try {
+            client.close();
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
     }
 
     // Set

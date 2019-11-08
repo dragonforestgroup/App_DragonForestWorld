@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dragonforest.app.module_message.R;
+import com.dragonforest.app.module_message.database.MessageType;
 import com.dragonforest.app.module_message.messageOuter.bean.MessageOuterModel;
 
 import java.text.DateFormat;
@@ -52,11 +53,19 @@ public class MessageOuterAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    /**
+     * 更新列表数据
+     * 1.如果已存在，则替换新内容，并视情况置顶
+     * 2.如果不存在，则添加到第一个
+     *
+     * @param messageOuterModel
+     */
     public void update(MessageOuterModel messageOuterModel) {
         boolean isExist = false;
         for (int i = 0; i < list.size(); i++) {
             MessageOuterModel outerModel = list.get(i);
-            if (outerModel.getSendClientID().equals(messageOuterModel.getSendClientID())) {
+            if (outerModel.getSendClientID().equals(messageOuterModel.getSendClientID())
+                    && outerModel.getType() == messageOuterModel.getType()) {
                 list.set(i, messageOuterModel);
                 changeTop(i);
                 isExist = true;
@@ -64,7 +73,7 @@ public class MessageOuterAdapter extends RecyclerView.Adapter {
             }
         }
         // 如果不存在，添加
-        if(!isExist){
+        if (!isExist) {
             list.addFirst(messageOuterModel);
         }
         notifyDataSetChanged();
@@ -72,14 +81,15 @@ public class MessageOuterAdapter extends RecyclerView.Adapter {
 
     /**
      * 置顶
+     *
      * @param i
      */
-    private void changeTop(int i){
-        if(list.size()==1){
+    private void changeTop(int i) {
+        if (list.size() == 1) {
             return;
         }
         MessageOuterModel first = list.get(0);
-        if(list.get(i).getLastMessage().getDate().after(first.getLastMessage().getDate())){
+        if (list.get(i).getLastMessage().getDate().after(first.getLastMessage().getDate())) {
             MessageOuterModel tempMessageOuterModel = list.get(i);
             list.remove(i);
             list.addFirst(tempMessageOuterModel);
@@ -115,16 +125,29 @@ public class MessageOuterAdapter extends RecyclerView.Adapter {
             String dateStr = dateFormat.format(date);
             tv_date.setText(dateStr);
 
+            // 设置未读消息
             int unReadNum = mMessage.getUnReadNum();
-            if(unReadNum>10){
+            if (unReadNum > 10) {
                 tv_msg_num.setText("...");
-            }else{
-                tv_msg_num.setText(unReadNum+"");
+            } else {
+                tv_msg_num.setText(unReadNum + "");
             }
             if (mMessage.getUnReadNum() == 0) {
                 tv_msg_num.setVisibility(View.GONE);
             } else {
                 tv_msg_num.setVisibility(View.VISIBLE);
+            }
+            // 设置图标
+            switch (mMessage.getType()) {
+                case MessageType.TYPE_WORK_NOTICE:
+                    img_head.setImageResource(R.drawable.msg_icon_work);
+                    break;
+                case MessageType.TYPE_PRIVATE_CHAT:
+                    img_head.setImageResource(R.drawable.msg_icon_client);
+                    break;
+                case MessageType.TYPE_GROUP_CHAT:
+                    img_head.setImageResource(R.drawable.msg_icon_group);
+                    break;
             }
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
