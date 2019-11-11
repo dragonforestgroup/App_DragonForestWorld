@@ -28,6 +28,7 @@ public class MessageHistoryActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewMsg;
     private Toolbar toolbar;
+    private MessageOuterModel messageOuterModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +79,7 @@ public class MessageHistoryActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        MessageOuterModel messageOuterModel = (MessageOuterModel) getIntent().getSerializableExtra("messageOuterModel");
+        messageOuterModel = (MessageOuterModel) getIntent().getSerializableExtra("messageOuterModel");
         if (messageOuterModel != null) {
             String sendClientID = messageOuterModel.getSendClientID();
             toolbar.setTitle(sendClientID+"");
@@ -88,7 +89,7 @@ public class MessageHistoryActivity extends AppCompatActivity {
             // 设置所有为已读
             if (messageOuterModel.getUnReadNum() > 0) {
                 MessageDBHelper.updateMessageStatus(messageOuterModel.getType(),sendClientID, 1);
-                EventBus.getDefault().post(new MessageStatusEvent(sendClientID, messageOuterModel.getType()));
+                EventBus.getDefault().post(new MessageStatusEvent(sendClientID, messageOuterModel.getType(),MessageStatusEvent.ACTION_UPDATE));
             }
         }
     }
@@ -101,6 +102,7 @@ public class MessageHistoryActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 messageModel.delete();
+                EventBus.getDefault().post(new MessageStatusEvent(messageModel.getSendClientID(), messageOuterModel.getType(),MessageStatusEvent.ACTION_DELETE));
                 initData();
                 Toast.makeText(MessageHistoryActivity.this, "删除成功！", Toast.LENGTH_SHORT).show();
             }
@@ -114,9 +116,18 @@ public class MessageHistoryActivity extends AppCompatActivity {
         builder.show();
     }
 
+    /**
+     * 有新消息
+     *
+     * @param messageModel
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageReceivedEvent(MessageModel messageModel) {
         /* Do something */
-        ((MessageAdapter) recyclerViewMsg.getAdapter()).addItem(messageModel);
+        if(messageOuterModel!=null){
+            if(messageModel.getType()==messageOuterModel.getType()&&(messageModel.getSendClientID().equals(messageOuterModel.getSendClientID()))){
+                ((MessageAdapter) recyclerViewMsg.getAdapter()).addItem(messageModel);
+            }
+        }
     }
 }

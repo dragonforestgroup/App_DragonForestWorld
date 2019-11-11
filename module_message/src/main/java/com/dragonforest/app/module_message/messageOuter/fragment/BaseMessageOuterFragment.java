@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import com.dragonforest.app.module_message.R;
 import com.dragonforest.app.module_message.database.MessageDBHelper;
 import com.dragonforest.app.module_message.database.MessageModel;
-import com.dragonforest.app.module_message.database.MessageType;
 import com.dragonforest.app.module_message.event.MessageStatusEvent;
 import com.dragonforest.app.module_message.messageInter.MessageHistoryActivity;
 import com.dragonforest.app.module_message.messageOuter.adapter.MessageOuterAdapter;
+import com.dragonforest.app.module_message.messageOuter.adapter.MessageOutrEmptySupportAdapter;
 import com.dragonforest.app.module_message.messageOuter.bean.MessageOuterModel;
 
 import org.greenrobot.eventbus.EventBus;
@@ -25,7 +25,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author 韩龙林
@@ -73,7 +72,7 @@ public abstract class BaseMessageOuterFragment extends Fragment {
 
     private void initRecycleView(RecyclerView recycleView) {
         LinkedList<MessageOuterModel> list = new LinkedList<>();
-        MessageOuterAdapter adapter = new MessageOuterAdapter(list);
+        MessageOutrEmptySupportAdapter adapter = new MessageOutrEmptySupportAdapter(list);
         recycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycleView.setAdapter(adapter);
 
@@ -89,53 +88,54 @@ public abstract class BaseMessageOuterFragment extends Fragment {
 
     private void initData() {
         LinkedList<MessageOuterModel> messageOuterModels = getData();
-        ((MessageOuterAdapter) recycleView_message.getAdapter()).setData(messageOuterModels);
+        ((MessageOutrEmptySupportAdapter) recycleView_message.getAdapter()).setData(messageOuterModels);
     }
 
+    /**
+     * 获取外层列表数据
+     *
+     * @return
+     */
     public LinkedList<MessageOuterModel> getData() {
-//        // 获取所有工作通知sendClientId
-//        List<String> allSendClientIDs = MessageDBHelper.getAllSendClientIDs(messageType);
-//        LinkedList<MessageOuterModel> messageOuterModels = new LinkedList<>();
-//        for (String sendClientID : allSendClientIDs) {
-//            MessageModel newestMessage = MessageDBHelper.getNewestMessage(messageType, sendClientID);
-//            if (newestMessage != null) {
-//                int unReadMessageNum = MessageDBHelper.getUnReadMessageNum(messageType, sendClientID);
-//                MessageOuterModel messageOuterModel = new MessageOuterModel(messageType, sendClientID, newestMessage, unReadMessageNum);
-//                messageOuterModels.add(messageOuterModel);
-//            }
-//        }
-//        return messageOuterModels;
         return MessageDBHelper.getAllMessageOuterModels(messageType);
     }
 
-    // 消息状态改变
+    /**
+     * 消息状态改变监听
+     *
+     * @param messageStatusEvent
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageStatusChanged(MessageStatusEvent messageStatusEvent) {
         if (messageStatusEvent != null) {
             String sendClientID = messageStatusEvent.getSendClientID();
             int type = messageStatusEvent.getType();
+            int action=messageStatusEvent.getAction();
             if (sendClientID == null) {
                 return;
             }
             if (messageType == -1) {
                 // 接收全部通知
-                notifyItemChange(type, sendClientID);
+                notifyItemChange(type, sendClientID,action);
             } else {
                 // 接收相应类型的通知
                 if (type == messageType) {
-                    notifyItemChange(type, sendClientID);
+                    notifyItemChange(type, sendClientID,action);
                 }
             }
         }
     }
 
-    private void notifyItemChange(int type, String sendClientID) {
+    private void notifyItemChange(int type, String sendClientID,int action) {
         MessageModel newestMessage = MessageDBHelper.getNewestMessage(type, sendClientID);
         if (newestMessage != null) {
             int unReadMessageNum = MessageDBHelper.getUnReadMessageNum(type, sendClientID);
             MessageOuterModel messageOuterModel = new MessageOuterModel(type, sendClientID, newestMessage, unReadMessageNum);
             // 更新
-            ((MessageOuterAdapter) recycleView_message.getAdapter()).update(messageOuterModel);
+            ((MessageOutrEmptySupportAdapter) recycleView_message.getAdapter()).update(messageOuterModel);
+        }else{
+            // 当前组没有消息，删除
+            ((MessageOutrEmptySupportAdapter) recycleView_message.getAdapter()).delete(type,sendClientID);
         }
     }
 }

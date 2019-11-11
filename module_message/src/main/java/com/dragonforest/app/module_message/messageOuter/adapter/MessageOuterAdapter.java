@@ -15,6 +15,7 @@ import com.dragonforest.app.module_message.messageOuter.bean.MessageOuterModel;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -50,6 +51,18 @@ public class MessageOuterAdapter extends RecyclerView.Adapter {
 
     public void setData(LinkedList<MessageOuterModel> list) {
         this.list = list;
+        notifyDataSetChanged();
+    }
+
+    public void delete(int type, String sendClientID) {
+        Iterator<MessageOuterModel> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            MessageOuterModel next = iterator.next();
+            if (next.getType() == type && next.getSendClientID().equals(sendClientID)) {
+                list.remove(next);
+                break;
+            }
+        }
         notifyDataSetChanged();
     }
 

@@ -7,12 +7,27 @@ package com.dragonforest.app.module_message.event;
  * @date 2019/11/7 10:20
  */
 public class MessageStatusEvent {
-    int type;
-    String sendClientID;
+    public final static int ACTION_ADD = 0;
+    public final static int ACTION_DELETE = 1;
+    public final static int ACTION_UPDATE = 2;
 
-    public MessageStatusEvent(String sendClientID, int type) {
+    /**
+     * 消息类型
+     */
+    int type;
+    /**
+     * 发送人id
+     */
+    String sendClientID;
+    /**
+     * 消息操作 增/删/改
+     */
+    int action;
+
+    public MessageStatusEvent(String sendClientID, int type, int action) {
         this.type = type;
         this.sendClientID = sendClientID;
+        this.action = action;
     }
 
     public void setSendClientID(String sendClientID) {
@@ -29,5 +44,13 @@ public class MessageStatusEvent {
 
     public int getType() {
         return type;
+    }
+
+    public void setAction(int action) {
+        this.action = action;
+    }
+
+    public int getAction() {
+        return action;
     }
 }

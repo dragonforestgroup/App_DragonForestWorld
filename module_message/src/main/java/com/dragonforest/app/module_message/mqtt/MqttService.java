@@ -243,7 +243,7 @@ public class MqttService extends Service {
             // 通知新消息
             EventBus.getDefault().post(messageModel);
             // 通知消息状态变化
-            EventBus.getDefault().post(new MessageStatusEvent(messageModel.getSendClientID(), messageModel.getType()));
+            EventBus.getDefault().post(new MessageStatusEvent(messageModel.getSendClientID(), messageModel.getType(),MessageStatusEvent.ACTION_ADD));
         }
 
         @Override
