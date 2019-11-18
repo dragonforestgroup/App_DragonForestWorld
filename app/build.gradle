@@ -75,6 +75,9 @@ dependencies {
     if (!rootProject.ext.moduleSetting.isMessageRunAlone.toBoolean()) {
         implementation project(':module_message')
     }
+    if (!rootProject.ext.moduleSetting.isNotificationRunAlone.toBoolean()) {
+        implementation project(':module_notification')
+    }
 //    implementation project(':lib_upgrade')
     implementation project(':libview')
 

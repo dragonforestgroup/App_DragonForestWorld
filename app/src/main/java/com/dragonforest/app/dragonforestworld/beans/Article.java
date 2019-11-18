@@ -132,6 +132,7 @@ public class Article implements Serializable {
      */
     public static List<Article> getAndroidData() {
         List<Article> list = new ArrayList<>();
+        list.add(new Article("Google", "Android Developer 中文版", "1小时前", "", R.drawable.app_bg_android, "","https://developer.android.google.cn/training/notify-user/build-notification?hl=ch"));
         list.add(new Article("CVer", "读硕/博期间你积累了哪些重要的科研经验？", "1小时前", "", R.drawable.app_bg_android, "","https://mp.weixin.qq.com/s/eYFAomUZkCDTcSM-N6P-1A"));
         list.add(new Article("玉刚说", "Android 仿微信 QQ 图片裁剪，赶紧收藏起来！", "1小时前", "", R.drawable.app_bg_android, "","https://mp.weixin.qq.com/s/LBuIZZch_vZXXx5Wc0Yv2A"));
         list.add(new Article("刘望舒", "Android热更新利器Tinker接入", "1小时前", "", R.drawable.app_bg_android, "","https://mp.weixin.qq.com/s/VQzlz5_6TOotWoCCm5VPPw"));

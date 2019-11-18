@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 
 import com.dragonforest.app.dragonforestworld.R;
 import com.dragonforest.app.dragonforestworld.beans.Article;
+import com.dragonforest.app.module_common.utils.ClipboardUtil;
 import com.dragonforest.app.module_common.utils.StatusBarUtil;
 import com.dragonforest.app.module_common.utils.ToastUtils;
 
@@ -75,16 +76,16 @@ public class WebArticleDetailActivity extends AppCompatActivity {
         webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
         if (data == null) {
-            ToastUtils.show("该文章不存在",this);
+            ToastUtils.show("该文章不存在", this);
         } else {
-            if(data.getLink()==null){
+            if (data.getLink() == null) {
                 webView.loadUrl("https://blog.csdn.net/qq_23992393/article/details/98070524");
-            }else{
+            } else {
                 webView.loadUrl(data.getLink());
             }
-            if(data.getPublisher()==null) {
+            if (data.getPublisher() == null) {
                 toolbar.setTitle("精品文章");
-            }else{
+            } else {
                 toolbar.setTitle(data.getPublisher());
             }
         }
@@ -104,7 +105,7 @@ public class WebArticleDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.web_menu,menu);
+        getMenuInflater().inflate(R.menu.web_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -123,11 +124,24 @@ public class WebArticleDetailActivity extends AppCompatActivity {
             case R.id.action_share:
                 defaultProcess();
                 break;
+            case R.id.action_copy:
+                copyToPlate();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void defaultProcess(){
-        ToastUtils.show("正在开发中...",this);
+    private void copyToPlate() {
+        if (this.data != null) {
+            String link = this.data.getLink();
+            ClipboardUtil.copyTextToPlate(getApplicationContext(), link);
+            ToastUtils.show("复制链接成功！", this);
+        } else {
+            ToastUtils.show("复制链接失败！", this);
+        }
+    }
+
+    private void defaultProcess() {
+        ToastUtils.show("正在开发中...", this);
     }
 }

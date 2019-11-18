@@ -14,7 +14,10 @@
         android:layout_height="wrap_content"
         android:background="@color/colorBlueForLoginTitle"
         app:title="网页"
-        app:titleTextColor="@android:color/white"></android.support.v7.widget.Toolbar>
+        app:titleTextColor="@android:color/white"
+        android:elevation="5dp"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"></android.support.v7.widget.Toolbar>
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="match_parent"

@@ -57,6 +57,24 @@ public class NotificationUtil {
         getManager(context).notify(id, notificationBuilder.build());
     }
 
+    /**
+     * 普通通知
+     *
+     * @param id
+     * @param context
+     * @param title
+     * @param smallIcon
+     * @param largeIcon
+     * @param intent
+     */
+    public void showNormalVibratorNotification(int id, String channelId, Context context, String title, int smallIcon, int largeIcon, Intent intent) {
+        Notification.Builder notificationBuilder = createNotificationBuilder(channelId, context, title, smallIcon, largeIcon);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)(System.currentTimeMillis()/1000), intent, 0);
+        notificationBuilder.setAutoCancel(true);
+        notificationBuilder.setContentIntent(pendingIntent);
+        getManager(context).notify(id, notificationBuilder.build());
+    }
+
 
     /**
      * 折叠式通知 展开的view在另一个进程中 remoteView

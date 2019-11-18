@@ -10,6 +10,8 @@ import android.util.Log;
 
 import com.dragonforest.app.module_common.utils.LogUtil;
 import com.dragonforest.app.module_common.utils.NotificationUtil;
+import com.dragonforest.app.module_common.utils.NotificationWrapper;
+import com.dragonforest.app.module_message.R;
 import com.dragonforest.app.module_message.database.MessageDBHelper;
 import com.dragonforest.app.module_message.database.MessageModel;
 import com.dragonforest.app.module_message.event.ConnectStatusEvent;
@@ -24,6 +26,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -54,30 +57,6 @@ public class MqttService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         LogUtil.E(TAG, "onStartCommand()");
-//        // 判断是否已经连接
-//        MqttConnection currentConnection = getCurrentConnection(MqttConfig.getServerURI() + "&" + MqttConfig.getClientID());
-//        if (currentConnection != null) {
-//            if (currentConnection.isConnected()) {
-//                EventBus.getDefault().post(new ConnectStatusEvent(1, "已连接到服务：" + currentConnection.getMqttConfig.getServerURI()()));
-//            } else {
-////                EventBus.getDefault().post(new ConnectStatusEvent(-1, "连接已断开，请重新连接!"));
-//                // 重新连接
-//                LogUtil.E(TAG, "onStartCommand()连接已断开，尝试重新连接");
-//                startSubscribe();
-//            }
-//        }else{
-//            LogUtil.E(TAG, "onStartCommand()连接为空，尝试重新连接");
-//            startSubscribe();
-//        }
-
-//        if (isCurrentConnect()) {
-//            LogUtil.E(TAG, "当前已连接");
-//            onServerConnect("已连接到服务：" + MqttConfig.getServerURI());
-//        } else {
-//            // 重新连接
-//            LogUtil.E(TAG, "当前未连接，开始重新连接...");
-//            onServerDisconnect("连接失败!" + MqttConfig.getServerURI());
-//        }
         LogUtil.E(TAG, "开始监听()");
         startSubscribe();
         return super.onStartCommand(intent, flags, startId);
@@ -122,56 +101,58 @@ public class MqttService extends Service {
      * 4.连接成功则完成，失败则10s后重试
      */
     private void startSubscribe() {
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-        LogUtil.E(TAG, "startSubscribe() 开始连接并监听");
-        // 1.判断当前是否连接
-        MqttConnection currentConnection = getCurrentConnection(MqttConfig.getServerURI() + "&" + MqttConfig.getClientID());
-        if (currentConnection != null) {
-            if (currentConnection.isConnected()) {
-                // 2.是，使用当前连接
-                LogUtil.E(TAG, "startSubscribe() 当前是已连接状态");
-                onServerConnect("已连接到服务：" + currentConnection.getServerURI());
-                return;
-            } else {
-                connections.remove(currentConnection);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (this) {
+                    LogUtil.E(TAG, "startSubscribe() 开始连接并监听");
+                    // 1.判断当前是否连接
+                    MqttConnection currentConnection = getCurrentConnection(MqttConfig.getServerURI() + "&" + MqttConfig.getClientID());
+                    if (currentConnection != null) {
+                        if (currentConnection.isConnected()) {
+                            // 2.是，使用当前连接
+                            LogUtil.E(TAG, "startSubscribe() 当前是已连接状态");
+                            onServerConnect("已连接到服务：" + currentConnection.getServerURI());
+                            return;
+                        } else {
+                            connections.remove(currentConnection);
+                        }
+                    }
+                    // 3.否创建连接 并监听
+                    currentConnection = new MqttConnection(MqttConfig.getServerURI(), MqttConfig.getClientID(), getApplicationContext());
+                    currentConnection.setMqttCallback(mqttCallback);
+                    connections.add(currentConnection);
+                    try {
+                        boolean isConnected = currentConnection.connect();
+                        if (isConnected) {
+                            onServerConnect("已连接到服务：" + currentConnection.getServerURI());
+                            currentConnection.getClient().subscribe(MqttConfig.getTopics(), MqttConfig.getQoss());
+                        } else {
+                            connections.remove(currentConnection);
+                            onServerDisconnect("连接失败!" + MqttConfig.getServerURI());
+                        }
+                    } catch (MqttException e) {
+                        e.printStackTrace();
+                        LogUtil.E(TAG, "监听失败......" + e.getMessage());
+                    }
+                }
             }
-        }
-        // 3.否创建连接 并监听
-        currentConnection = new MqttConnection(MqttConfig.getServerURI(), MqttConfig.getClientID(), getApplicationContext());
-        currentConnection.setMqttCallback(mqttCallback);
-        connections.add(currentConnection);
-        try {
-            boolean isConnected = currentConnection.connect();
-            if (isConnected) {
-                onServerConnect("已连接到服务：" + currentConnection.getServerURI());
-                currentConnection.getClient().subscribe(MqttConfig.getTopics(), MqttConfig.getQoss());
-            } else {
-                connections.remove(currentConnection);
-                onServerDisconnect("连接失败!" + MqttConfig.getServerURI());
-            }
-        } catch (MqttException e) {
-            e.printStackTrace();
-            LogUtil.E(TAG, "监听失败......" + e.getMessage());
-        }
-//            }
-//        }).start();
+        }).start();
     }
 
     /**
      * 所有连接成功统一调用此方法
      */
     public void onServerConnect(String msg) {
-        EventBus.getDefault().post(new ConnectStatusEvent(1, msg));
+        EventBus.getDefault().post(new ConnectStatusEvent(ConnectStatusEvent.STATUS_CONNECTED, msg));
     }
 
     /**
      * 所有连接失败统一调用此方法
      */
     public void onServerDisconnect(String msg) {
-        EventBus.getDefault().post(new ConnectStatusEvent(-1, msg));
-        // 连接失败 5s一次重新连接
+        EventBus.getDefault().post(new ConnectStatusEvent(ConnectStatusEvent.STATUS_DISCONNECTED, msg));
+        // 连接失败 10s一次重新连接
         LogUtil.E(TAG, "startSubscribe() 连接失败，" + RECONNECT_DELAY + "s后开始重新连接......");
         mainHandler.postDelayed(new Runnable() {
             @Override
@@ -208,6 +189,7 @@ public class MqttService extends Service {
         @Override
         public void connectionLost(Throwable cause) {
             Log.e(TAG, "connectionLost 连接断开" + cause.getMessage().toString());
+            MessageLog.E(getApplicationContext(), cause.toString());
             // 清理连接
             MqttConnection currentConnection = getCurrentConnection(MqttConfig.getServerURI() + "&" + MqttConfig.getClientID());
             if (currentConnection != null) {
@@ -235,15 +217,26 @@ public class MqttService extends Service {
             // 记录日志
             MessageLog.D(getApplicationContext(), messageModel.toString());
             // 显示通知状态栏
-            Intent intent = new Intent();
-            intent.setClass(getApplicationContext(), MessageDetailActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("message", messageModel);
-            NotificationUtil.getInstance().showNormalNotification(1, NotificationUtil.CHANNEL_ID_MESSAGE, getApplicationContext(), "收到一条消息", android.R.drawable.ic_menu_report_image, android.R.drawable.ic_menu_report_image, intent);
+//            Intent intent = new Intent();
+//            intent.setClass(getApplicationContext(), MessageDetailActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            intent.putExtra("message", messageModel);
+//            NotificationUtil.getInstance().showNormalNotification(1, NotificationUtil.CHANNEL_ID_MESSAGE, getApplicationContext(), "收到一条消息", android.R.drawable.ic_menu_report_image, android.R.drawable.ic_menu_report_image, intent);
+
+            HashMap<String,Object> paramsHashMap=new HashMap<>();
+            paramsHashMap.put("message",messageModel);
+            new NotificationWrapper().newNotification(getApplicationContext(), R.drawable.msg_icon_client,"收到一条消息","点击查看详情")
+                    .setBigText(messageModel.getMessage())
+                    .setTarget(MessageDetailActivity.class,paramsHashMap,1,false)
+                    .setSound(R.raw.notification1)
+                    .setVibrate(new long[]{0,100,1000})
+//                    .setFullScreen(MessageDetailActivity.class,paramsHashMap,1)
+                    .show(messageModel.hashCode());
+
             // 通知新消息
             EventBus.getDefault().post(messageModel);
             // 通知消息状态变化
-            EventBus.getDefault().post(new MessageStatusEvent(messageModel.getSendClientID(), messageModel.getType(),MessageStatusEvent.ACTION_ADD));
+            EventBus.getDefault().post(new MessageStatusEvent(messageModel.getSendClientID(), messageModel.getType(), MessageStatusEvent.ACTION_ADD));
         }
 
         @Override

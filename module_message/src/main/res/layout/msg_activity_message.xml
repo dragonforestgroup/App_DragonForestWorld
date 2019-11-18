@@ -38,7 +38,10 @@
         android:layout_height="wrap_content"
         android:background="@color/colorBlueForRegisterTitle"
         app:title="消息"
-        app:titleTextColor="@android:color/white"></com.dragonforest.app.module_common.view.CompatLayout.CompatStatusBarToolbar>
+        app:titleTextColor="@android:color/white"
+        app:elevation="10dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"></com.dragonforest.app.module_common.view.CompatLayout.CompatStatusBarToolbar>
     <!--标题头-end-->
 
     <!--弹出警告-->

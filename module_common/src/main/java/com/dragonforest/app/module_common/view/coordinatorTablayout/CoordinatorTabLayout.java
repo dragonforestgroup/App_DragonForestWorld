@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -16,6 +18,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +42,7 @@ public class CoordinatorTabLayout extends CoordinatorLayout {
 
     private Context mContext;
     private Toolbar mToolbar;
+    private AppBarLayout mAppBarLayout;
     private ActionBar mActionbar;
     private TabLayout mTabLayout;
     private ImageView mImageView;
@@ -72,6 +76,7 @@ public class CoordinatorTabLayout extends CoordinatorLayout {
     private void initView(Context context) {
         LayoutInflater.from(context).inflate(R.layout.view_coordinatortablayout, this, true);
         initToolbar();
+        initAppBarLayout();
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingtoolbarlayout);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
         mImageView = (ImageView) findViewById(R.id.imageview);
@@ -99,6 +104,37 @@ public class CoordinatorTabLayout extends CoordinatorLayout {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         ((AppCompatActivity) mContext).setSupportActionBar(mToolbar);
         mActionbar = ((AppCompatActivity) mContext).getSupportActionBar();
+    }
+
+    private void initAppBarLayout() {
+        mAppBarLayout=findViewById(R.id.appBarLayout);
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+
+                Log.e("CoordinatorTabLayout","onOffsetChanged():-->"+i+" ," +
+                        "mAppBarLayout.height-->"+mAppBarLayout.getHeight()+
+                        "mTabLayout.height-->"+mTabLayout.getHeight()+
+                        "mToolbar.height-->"+mToolbar.getHeight());
+                /*
+                    方案一：   滑动即开始渐变
+                    总滑动距离=mAppBarLayout的高度 - mToolbar的高度
+                    Toolbar的透明度= (1-滑动距离/总滑动距离)
+                 */
+//                mToolbar.setAlpha(1-((float)Math.abs(i)/(mAppBarLayout.getHeight()-mToolbar.getHeight())));
+                /*
+                ·   方案二：   滑动到Toolbar的底部的时候才开始渐变
+                    总滑动距离=mToobar的高度
+                 */
+                if(Math.abs(i)>((mAppBarLayout.getHeight()-2*mToolbar.getHeight()))){
+                    // 相对滑动距离
+                    float dis=Math.abs(i)-(mAppBarLayout.getHeight()-2*mToolbar.getHeight());
+                    mToolbar.setAlpha(1-(dis/mToolbar.getHeight()));
+                }else{
+                    mToolbar.setAlpha(1);
+                }
+            }
+        });
     }
 
     /**

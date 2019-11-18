@@ -163,13 +163,14 @@ public class MessageActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onConnectStatusChanged(ConnectStatusEvent connectStatusEvent) {
         Toast.makeText(this, "消息服务状态变化：" + connectStatusEvent.getMessage(), Toast.LENGTH_SHORT).show();
-        if (connectStatusEvent.getStatus() == -1) {
+        if (connectStatusEvent.getStatus() ==ConnectStatusEvent.STATUS_DISCONNECTED) {
             // 消息服务断开
             if (!expandableLayout_warn.isExpanded()) {
                 expandableLayout_warn.setExpanded(true);
             }
             tv_warn.setText(connectStatusEvent.getMessage());
         } else {
+            // 消息服务连接
             if (expandableLayout_warn.isExpanded()) {
                 expandableLayout_warn.setExpanded(false);
             }

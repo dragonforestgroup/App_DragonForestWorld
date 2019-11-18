@@ -7,12 +7,14 @@ package com.dragonforest.app.module_message.event;
  * @date 2019/10/30 11:43
  */
 public class ConnectStatusEvent {
+    public final static int STATUS_CONNECTED = 1;
+    public final static int STATUS_DISCONNECTED = -1;
     /**
      * 链接状态
      * 1 已连接
      * -1已断开
      */
-    int status=0;
+    int status = 0;
     String message;
 
     public ConnectStatusEvent(int status, String message) {

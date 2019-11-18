@@ -48,7 +48,10 @@
         android:background="@color/colorBlueForRegisterTitle"
         app:title="开发者社区"
         app:titleTextAppearance="@style/ToolbarTitleText"
-        app:collapseIcon="@drawable/app_bg_search"></com.dragonforest.app.dragonforestworld.view.CompatLayout.CompatStatusBarToolbar>
+        app:collapseIcon="@drawable/app_bg_search"
+        android:elevation="5dp"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"></com.dragonforest.app.dragonforestworld.view.CompatLayout.CompatStatusBarToolbar>
     <!--搜索专栏-end-->
 
     <!--推荐标题-->

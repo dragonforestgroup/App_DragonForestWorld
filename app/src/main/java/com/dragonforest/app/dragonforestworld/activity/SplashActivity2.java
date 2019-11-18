@@ -54,7 +54,23 @@ public class SplashActivity2 extends Activity {
                 new CheckRequestPermissionsListener() {
                     @Override
                     public void onAllPermissionOk(Permission[] allPermissions) {
-                        startDrawText();
+                        long appLastOpenTime = LoginUtil.getAppLastOpenTime(SplashActivity2.this);
+                        long currentOpenTime = System.currentTimeMillis();
+                        LoginUtil.recordAppOpenTime(SplashActivity2.this);
+                        if (appLastOpenTime != 0
+                                && ((currentOpenTime - appLastOpenTime) < (1000 * 60))) {
+                            // 1分钟以内 闪现
+                            forwardActivity();
+                        }
+//                        else if (appLastOpenTime != 0
+//                                && ((currentOpenTime - appLastOpenTime) < (1000 * 60 * 60))) {
+//                            // 1小时以内 等待1s
+//                            handler.sendEmptyMessageDelayed(1, 1000);
+//                        }
+                        else {
+                            // 等待动画完成
+                            startDrawText();
+                        }
                     }
 
                     @Override
